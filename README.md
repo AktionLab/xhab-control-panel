@@ -20,7 +20,7 @@ To develop and run this application, you should have at least a basic understand
 Environment Setup
 -----------------
 
-This setup guide assumes you are opertaing a bash terminal (or similar) in a Linux environment.
+This setup guide assumes you are operating a bash terminal (or similar) in a Linux environment.
 
 First, install RVM, the Ruby version manager. The typical RVM installation is per-user, so you'll want to install this as your own user, not as root.
 
@@ -32,7 +32,7 @@ RVM allows you to install different versions of Ruby on your machine, and to use
 
 That'll probably take a few minutes to configure and build.
 
-Ruby on Rails requires a Javascript runtime. I fyou don't already have one on your system, install node js. But first, make sure you've installed the required dependencies:
+Ruby on Rails requires a Javascript runtime. If you don't already have one on your system, install node. But first, make sure you've installed the required dependencies:
 
     sudo apt-get update
     sudo apt-get install build-essential git python libssl-dev
@@ -55,19 +55,19 @@ Next, clone the project from github.
 
     git clone git@github.com:AktionLab/xhab-control-panel.git
 
-A new directory will be created, called xhab-control-panel, and the project files will be downloaded into it. When you change into the project directory, RVM should notify you that a .rvmrc file has been detected, and ask you if you would like to use it. Choose yes.
+A new directory will be created, called xhab-control-panel, and the project files will be downloaded into it. When you change into the project directory, RVM should notify you that a new .rvmrc file has been detected, and will ask you if you would like to use it. Choose yes.
 
-The first thing you need to do when working with any Rails project is to run bundler. Bundler is an application that manages all your project's gems, or packages, that are used in the application. The gems that are used in the application are defined in the Gemfile. Now, run bundler to pull in all the dependencies:
+The first thing you need to do when working with any Rails project is to run bundler. Bundler is an application that manages all your project's gems (packages), that are used in the application. The gems that are used in the application are defined in the Gemfile. Now, run bundler to pull in all the required gems and their dependencies:
 
     bundle install
 
-After bundler fetches and installs all the gems, you'll want to make sure your database schema is up to date. for this project, we're using sqlite in development, so you don't need to create a separate MySQL database. Simply run the rake comman to update your sqlite database schema to the last revision:
+After bundler fetches and installs all the gems, you'll want to make sure your database schema is up to date. For this project, we're using sqlite in development, so you don't need to create a separate MySQL database. Simply run the rake command to update your sqlite database schema to the last revision:
 
     rake db:migrate
 
-Rails uses a system of database migration files to versions control the database, allowing you to move back in time to previous database schemas if needed. Similar to how git keeps track of changes to the codebase over time, migrations track the changes to the database schema.
+Rails uses a system of database migration files to achieve version control of the database, allowing you to move back in time to previous database schemas if you want. Similar to how git keeps track of changes to the codebase over time, migrations track changes to the database schema, and are a key feature of Rails.
 
-There may be seed data for the project, so you'll want to run the rake command to generate the seed data:
+There may be seed data for the project, so you'll want to run a rake command to generate the seed data:
 
     rake db:seed
 
