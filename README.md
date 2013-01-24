@@ -22,9 +22,9 @@ Environment Setup
 
 This setup guide assumes you are opertaing a bash terminal (or similar) in a Linux environment.
 
-First, install RVM, the Ruby version manager. Do this as your own user, not as root.
+First, install RVM, the Ruby version manager. The typical RVM installation is per-user, so you'll want to install this as your own user, not as root.
 
-    $ \curl -L https://get.rvm.io | bash -s stable --ruby
+    \curl -L https://get.rvm.io | bash -s stable --ruby
 
 RVM allows you to install different versions of Ruby on your machine, and to use specific versions for any given Ruby project. For this application, we are using Ruby version 1.9.3-p327. So, assuming RVM installed correctly, you can now install the specific version of ruby we're using:
 
@@ -32,6 +32,47 @@ RVM allows you to install different versions of Ruby on your machine, and to use
 
 That'll probably take a few minutes to configure and build.
 
-Once you have Ruby installed, clone the project from github.
+Ruby on Rails requires a Javascript runtime. I fyou don't already have one on your system, install node js. But first, make sure you've installed the required dependencies:
 
-    git clone 
+    sudo apt-get update
+    sudo apt-get install build-essential git python libssl-dev
+
+Now you can install node. You may want to check the node website and adjust the following commands so that you are installing the latest version of node:
+
+    cd /usr/local/src
+    sudo mkdir node
+    cd node
+    sudo wget http://nodejs.org/dist/v0.8.18/node-v0.8.18.tar.gz
+    sudo tar -xzvf node-v0.8.18.tar.gz
+    cd node-v0.8.18
+    sudo ./configure
+    sudo make
+    sudo make install
+
+Expect that to take a bit of time to build. Once you have node installed (or already had a Javascript runtime on your system), you can continue setting up the project.
+
+Next, clone the project from github.
+
+    git clone git@github.com:AktionLab/xhab-control-panel.git
+
+A new directory will be created, called xhab-control-panel, and the project files will be downloaded into it. When you change into the project directory, RVM should notify you that a .rvmrc file has been detected, and ask you if you would like to use it. Choose yes.
+
+The first thing you need to do when working with any Rails project is to run bundler. Bundler is an application that manages all your project's gems, or packages, that are used in the application. The gems that are used in the application are defined in the Gemfile. Now, run bundler to pull in all the dependencies:
+
+    bundle install
+
+After bundler fetches and installs all the gems, you'll want to make sure your database schema is up to date. for this project, we're using sqlite in development, so you don't need to create a separate MySQL database. Simply run the rake comman to update your sqlite database schema to the last revision:
+
+    rake db:migrate
+
+Rails uses a system of database migration files to versions control the database, allowing you to move back in time to previous database schemas if needed. Similar to how git keeps track of changes to the codebase over time, migrations track the changes to the database schema.
+
+There may be seed data for the project, so you'll want to run the rake command to generate the seed data:
+
+    rake db:seed
+
+At this point you should have everything you need to run the application. To start up the rails server:
+
+    rails s
+
+That will run the default Rails web server, Webrick, on port 3000. To load the site, just point your browser to http://localhost:3000.
