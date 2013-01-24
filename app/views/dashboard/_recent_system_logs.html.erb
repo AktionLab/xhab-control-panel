@@ -1,0 +1,35 @@
+<div class="black-box tex">
+  <div class="tab-header">
+    System log
+  </div>
+  <ul class="recent-comments">
+
+    <% (1..2).each do %>
+
+        <li class="separator">
+          <div class="avatar pull-left">
+            <%= image_tag "avatar.png" %>
+          </div>
+
+          <div class="article-post">
+            <div class="user-info"> Jan 13, 2:34 PM </div>
+            <div class="user-content">
+              Vivamus sed auctor nibh congue, ligula vitae tempus pharetra...
+              Vivamus sed auctor nibh congue, ligula vitae tempus pharetra...
+              Vivamus sed auctor nibh congue, ligula vitae tempus pharetra...
+            </div>
+
+            <div class="btn-group">
+              <button class="button black mini"><i class="icon-pencil"></i> Edit</button>
+              <button class="button black mini"><i class="icon-remove"></i> Delete</button>
+              <button class="button black mini"><i class="icon-ok"></i> Approve</button>
+            </div>
+          </div>
+        </li>
+
+    <% end %>
+    <li class="separator" style="text-align: center">
+      <a href="#">View all</a>
+    </li>
+  </ul>
+</div>

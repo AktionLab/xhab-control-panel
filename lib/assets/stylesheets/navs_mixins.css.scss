@@ -1,0 +1,5 @@
+@mixin tab-header {
+  @include std-bg(#494852, #2A2A30);
+  @include box-shadow(inset 0px 1px 0px rgba(255, 255, 255, 0.1));
+  border-bottom: 1px solid #1D1E21;
+}

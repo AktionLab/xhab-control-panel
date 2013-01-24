@@ -1,0 +1,150 @@
+@import "button_mixins";
+
+button.button {
+  .caret {
+    margin-top: 4px;
+  }
+
+  &.mini {
+    padding: 0 4px;
+  }
+}
+
+.btn-group {
+  display: inline-block;
+
+  margin:0;
+  margin-top: 4px;
+  &:last-child {
+    margin-right: 0;
+  }
+
+  & + .btn-group {
+    margin-left: 0;
+  }
+
+  .button {
+    white-space: nowrap;
+    @include border-radius(0px);
+    margin-left: -1px;
+
+    &:first-child {
+      margin-left: 0;
+      @include border-radius(3px 0 0 3px, 3px 0 0 3px);
+    }
+
+    &:last-child {
+      @include border-radius(0 3px 3px 0, 0 3px 3px 0);
+    }
+
+    &.dropdown-toggle {
+      @include border-radius(4px);
+    }
+
+    &+ .button.dropdown-toggle {
+      border-radius: 0 4px 4px 0;
+    }
+
+  }
+
+  .dropdown-menu.dropdown-left {
+    right: 0;
+    position: absolute;
+    left: auto;
+  }
+
+  .dropdown-menu li a {
+    @include text-shadow(none);
+  }
+}
+
+.button {
+
+  @include simple-button;
+  @include button-color($white);
+
+  i {
+    line-height: 16px;
+  }
+
+  &.rounded {
+    @include border-radius(10px);
+  }
+
+  &.mini {
+    padding: 0px 10px;
+    line-height: 20px;
+  }
+
+  &.large {
+    border: none;
+    padding: 0 18px;
+    @include box-shadow(0 1px 3px rgba(0,0,0,.3));
+    @include border-radius(3px);
+    color: #666;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    min-width: 103px;
+
+    &:active {
+      @include box-shadow(none);
+      color: #000;
+      top: 1px;
+      position: relative;
+    }
+
+    &:hover {
+      color: #333;
+    }
+
+    span {
+      margin-top: 5px;
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    i {
+      font-weight: normal;
+      font-size: 32px;
+      line-height: 32px;
+      margin-top: 20px;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &:active {
+    @include box-shadow(rgba(0, 0, 0, 0.1) 0px 0px 4px 0px inset, rgba(255, 255, 255, 0.5) 0px 1px 0px 0px);
+  }
+
+  &.blue {
+    @include invert-button-color($blue);
+  }
+
+  &.red {
+    @include invert-button-color($red);
+  }
+
+  &.green {
+    @include invert-button-color($green);
+  }
+
+  &.black {
+    @include invert-button-color($black);
+  }
+
+  &.light-gray {
+    @include invert-button-color($light-gray);
+  }
+
+  &.gray {
+    @include invert-button-color($gray);
+  }
+
+}
+
+
+

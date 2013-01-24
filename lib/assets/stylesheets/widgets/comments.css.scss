@@ -1,0 +1,35 @@
+@import "compass";
+
+.recent-comments {
+  .separator {
+    @include clearfix;
+  }
+
+  .article-post {
+    padding-top: 8px;
+    margin-left: 78px;
+  }
+
+  .user-info {
+    color: #ccc;
+    font-size: 10px;
+  }
+
+  .user-content {
+    font-size: 12px;
+  }
+
+  .separator {
+    margin-top: 10px;
+    padding-bottom: 10px;
+
+    &:last-child {
+      @include border-radius(0 0 5px 5px);
+    }
+  }
+
+  .btn-group {
+    margin-top: 10px;
+  }
+
+}

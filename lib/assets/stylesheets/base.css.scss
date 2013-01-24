@@ -1,0 +1,27 @@
+@import "compass";
+
+* {
+  margin: 0px;
+  padding: 0px;
+  text-decoration: none;
+  outline: none;
+  @include box-sizing(border-box);
+}
+
+body {
+  font: normal 12px HelveticaNeue, Helvetica, Arial
+}
+
+a {
+  cursor: pointer;
+  color: #78808a;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.container-fluid {
+  //bs 222 fix
+  overflow-x: hidden;
+}

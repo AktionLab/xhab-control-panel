@@ -1,0 +1,122 @@
+@import "compass/css3";
+
+.ui-datepicker {
+
+  width: 210px;
+  display: none;
+  @include box-shadow(#666 0 0 8px);
+  @include background-image(linear-gradient(top,#545454,#424242));
+  @include border-radius(4px,4px);
+
+  .ui-datepicker-header {
+    position: relative;
+    a.ui-datepicker-next {
+      cursor: pointer;
+      height: 22px;
+      width: 32px;
+      float: right;
+      background: image-url("icons/calendar_right.png") center center no-repeat;
+      margin-right: 5px;
+      margin-top:5px;
+      span {
+        display: none;
+      }
+    }
+    a.ui-datepicker-prev {
+      margin-top:5px;
+      cursor: pointer;
+      float: left;
+      height: 22px;
+      width: 32px;
+      background: image-url("icons/calendar_left.png") center center no-repeat;
+      margin-left: 5px;
+      span {
+        display: none;
+      }
+    }
+  }
+  .ui-datepicker-title {
+    padding-top: 8px;
+    text-align: center;
+    color: #FFF;
+    @include text-shadow(rgba(0, 0, 0, 0.6) 0 -1px 0);
+    font-weight: bold;
+    font-size: .8em;
+    input[type=select] {
+
+    }
+  }
+
+  .ui-datepicker-calendar {
+    margin-bottom: 5px;
+    margin-left: 6px;
+
+    thead {
+      th {
+        span {
+          line-height: 1.6em;
+          color: #9D9B9B;
+          font-size: .7em;
+          font-weight: bold;
+          @include text-shadow(rgba(0, 0, 0, 0.3) 0 -1px 0);
+        }
+      }
+    }
+
+    tbody {
+      tr:first-child td { border-top: 1px solid #303030; }
+      tr:last-child td { border-bottom: 1px solid #303030; }
+
+      td {
+        &:last-child { border-right: 1px solid #303030; }
+        &:first-child { border-left: 1px solid #303030; }
+
+        border: 1px solid #232323;
+        min-width: 28px;
+        line-height: 22px;
+
+        background: #444444;
+        @include box-shadow(#4a4a4a 0 1px 0 inset);
+
+        a,span {
+          text-align: center;
+          display: block;
+          line-height: 22px;
+          color: #FFF;
+          @include text-shadow(rgba(0, 0, 0, 0.6) 0 -1px 0);
+          font-weight: bold;
+          font-size: .8em;
+
+          &.ui-state-active {
+            @include text-shadow(darken(#8F9EB4,25) 0 -1px 0);
+            background: #8F9EB4;
+            @include box-shadow(darken(#8F9EB4,20) 0 1px 0 inset, darken(#8F9EB4,30) 0 2px 3px inset);
+          }
+        }
+        .ui-state-hover {
+          background: lighten(#444444,5);
+        }
+
+        &.ui-datepicker-other-month {
+          background: #333;
+          a,span {
+            color: #646162;
+          }
+          @include box-shadow(#414141 0 1px 0 inset);
+        }
+        &.ui-datepicker-unselectable {
+          a,span {color: darken(#FFF,40); }
+        }
+
+        &.ui-datepicker-today {
+          a.ui-state-active {
+            color: #FFF;
+          }
+          a,span {
+            color: Salmon;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,230 @@
+@import "compass";
+@import "button_mixins";
+@import "mixin_helpers";
+
+.fill-up {
+  width: 100%;
+}
+form {
+  @include clearfix;
+}
+
+form.fill-up {
+  width: 100%;
+  margin-bottom: 0;
+  input, textarea {
+    width: 100%;
+  }
+}
+
+.note {
+  font-style: italic;
+  color: #fff;
+  @include text-shadow-bottom(#000);
+  font-size: 12px;
+  padding: 0px 0px 10px 0px;
+
+  &.large {
+    font-size: 12px;
+    i {
+      font-size: 16px;
+    }
+  }
+}
+
+.box {
+  .note {
+    font-size: 10px;
+    color: #888;
+    @include text-shadow-bottom(#fff);
+  }
+}
+
+.black-box {
+  .note {
+    font-size: 10px;
+    color: #fff;
+    @include text-shadow-bottom(#000);
+  }
+}
+
+
+
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+  &.input-transparent {
+    @include box-shadow(inset 0px 0px 4px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.3));
+    background: rgba(0, 0, 0, 0.25);
+    border: none;
+    color: #fff;
+    @include text-shadow(0px 1px 1px rgba(#111,0.5));
+    font-size: 100%;
+    padding: 5px 10px;
+    @include placeholder { color: #fff; }
+  }
+
+  height: 32px;
+
+  &.error {
+    border: 1px solid #AD6262;
+    color: #AD6262;
+    i {color: #AD6262;}
+    &:focus {
+      @include box-shadow(none);
+    }
+  }
+}
+
+.input {
+  position: relative;
+  .input-error {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 16px;
+    color: #AD6262;
+  }
+}
+
+textarea {
+  height: auto;
+}
+
+
+.prepend-transparent, .append-transparent {
+  position: relative;
+
+  input[type="text"] {
+    @include border-radius(3px);
+    font-size: 12px;
+  }
+
+  .add-on {
+    @include simple-button;
+    @include border-radius(3px) ;
+    padding:0 7px;
+    position: absolute;
+    top: 5px;
+    border: none;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+
+.prepend-transparent {
+
+  input[type="text"] {
+    padding-left: 35px;
+  }
+
+  .add-on {
+    left:5px;
+  }
+}
+
+.append-transparent {
+  input[type="text"] {
+    padding-right: 35px;
+  }
+
+  .add-on {
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    top: -5px;
+    position: relative;
+    right: 35px;
+  }
+}
+
+.form-actions {
+  margin-bottom: 0;
+  padding-bottom: 20px;
+  @include border-radius(0 0 6px 6px, 0 0 6px 6px);
+}
+
+.form-horizontal {
+  margin-bottom: 0;
+  padding-top: 20px;
+}
+
+.form-vertical {
+  padding-top: 20px;
+
+  .control-group {
+    padding-left: 20px;
+    padding-right: 20px;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+@mixin form-box($image-url) {
+  display: none;
+
+  &:checked + label:before {
+    background-position: 0 -38px;
+  }
+
+  &:checked + label:hover:before {
+    background-position: 0 -38px;
+  }
+
+  & + label {
+    padding-left: 25px;
+
+    &:before {
+      content: "";
+      background: image-url($image-url) no-repeat;
+      background-position: 0 0;
+      height: 19px;
+      width: 18px;
+      position: absolute;
+      margin-left: -25px;
+    }
+
+    &:hover:before {
+      background-position: 0 -19px;
+    }
+
+    &:active:before {
+      background-position: 0 -38px;
+    }
+  }
+}
+
+.normal-check {
+  @include form-box("checkbox2.png");
+}
+
+.normal-radio {
+  @include form-box("radio.png");
+}
+
+.input-group {
+  input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    &:first-child {
+      @include border-radius(4px 4px 0 0);
+      @include box-shadow(rgba(0, 0, 0, 0.4) 0px 6px 6px -6px inset);
+    }
+
+    &:last-child {
+      @include border-radius(0 0 4px 4px);
+      margin-bottom: 0;
+    }
+
+    margin: 0;
+    margin-bottom: -1px;
+    @include border-radius(0);
+
+    display: block;
+
+    border: 1px solid #555;
+    background: rgba(0, 0, 0, 0.3);
+    @include box-shadow(none);
+    padding-left: 20px;
+
+  }
+}
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Always force latest IE rendering engine or request Chrome Frame -->
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <title>X-Hab Remote Plant Food production System</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= render :partial => "dashboard/modal" %>
+<%= render :partial => "dashboard/primary_nav" %>
+
+<section id="main">
+  <%= render :partial => "dashboard/top_nav" %>
+  <div class="container-fluid">
+    <%= yield %>
+    <%= render :partial => "shared/footer" %>
+  </div>
+</section>
+
+<%= render :partial => "dashboard/notification_templates" %>
+
+</body>
+</html>

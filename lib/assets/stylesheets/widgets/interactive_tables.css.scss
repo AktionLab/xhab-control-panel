@@ -1,0 +1,83 @@
+@import "compass";
+@import "mixin_helpers";
+@import "button_mixins";
+
+
+
+div.dataTables_filter {
+ label {
+    float: left;
+  }
+
+  label {
+    margin-left: 10px;
+  }
+
+  input {
+    padding: 0;
+    line-height: 25px;
+    height: 25px;
+    width: 150px;
+  }
+}
+
+div.dataTables_wrapper .fg-toolbar {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+.dataTables_length {
+  position: absolute;
+  top: 1px;
+  right: 10px;
+
+  select {
+    padding: 0;
+    line-height: 25px;
+    height: 25px;
+    margin-top: 2px;
+  }
+}
+
+.dataTables_wrapper {
+  table {
+    border-bottom: 1px solid #DDD;
+  }
+
+  .fg-toolbar {
+    @include clearfix;
+  }
+}
+
+
+
+div.dataTables_paginate {
+
+  float: none;
+  margin-bottom: 20px;
+  padding-right: 10px;
+
+  a {
+    @include button-color($white);
+    padding: 4px 8px;
+    line-height: 25px;
+    height: 25px;
+    margin-left: -1px;
+  }
+
+  .first {
+    @include border-radius(4px 0 0 4px);
+  }
+
+  .last {
+    @include border-radius(0 4px 4px 0);
+  }
+
+  .ui-state-disabled, .ui-state-disabled:hover {
+    background: #ddd;
+    cursor: default;
+    @include text-shadow(none);
+  }
+
+}

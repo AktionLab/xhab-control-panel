@@ -1,0 +1,40 @@
+@import "compass";
+
+.search-button-trigger, .search-button-trigger:hover {
+  font-size: 16px;
+  color:#fff;
+  position:absolute;
+  right: 0px;
+  top: 10px;
+}
+
+.search-button-bar-container {
+  position: relative;
+}
+
+.search-bar-nav {
+  display: none;
+
+  &.open {
+    display: block;
+  }
+}
+
+input.search {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  height: 25px;
+  border: none;
+  @include std-bg(#666670, #46464D);
+  font-size: 12px;
+  line-height: 25px;
+  @include box-shadow(0px 1px 2px rgba(0, 0, 0, 0.7) inset);
+  color: #fff;
+  @include transition(width, .3s);
+
+  &:focus {
+    @include std-bg(#fff, #eee);
+    color: #404040;
+  }
+}

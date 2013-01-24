@@ -1,0 +1,31 @@
+@import "compass";
+@import "mixin_helpers";
+
+.modal.black-box {
+  background: image-url("linen-light.png");
+  color: #fff;
+  @include text-shadow-bottom(#000);
+
+  .modal-header {
+    padding: 0 12px;
+    width: 100%;
+
+    .close {
+      margin-top: 5px;
+      color: white;
+      opacity: 1;
+      text-shadow: 0 1px black;
+    }
+  }
+
+  .modal-body {
+    width: 100%;
+  }
+
+  .modal-footer {
+    border-top: none;
+    @include box-shadow(none);
+    width: 100%;
+    background-color: transparent;
+  }
+}

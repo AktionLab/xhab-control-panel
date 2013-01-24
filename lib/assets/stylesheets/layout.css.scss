@@ -1,0 +1,218 @@
+@import "compass";
+@import "mixin_helpers";
+@import "navs_mixins";
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background: image-url("linen-lighter.png");
+  -webkit-font-smoothing: antialiased;
+}
+
+ol, ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav.main-nav {
+  > ul {
+    height: 100%;
+
+    border-bottom: 1px solid #4A4A54;
+    > li {
+
+      border-bottom: 1px solid #1D1E21;
+      border-top: 1px solid #4A4A54;
+
+      > a {
+        color: #fff;
+        @include text-shadow-bottom(#000);
+        display: block;
+        padding: 7px 0;
+        text-align: center;
+        text-decoration: none;
+
+        &:hover {
+          background: rgba(0,0,0,.1);
+        }
+
+        i {
+          color: #eee;
+        }
+      }
+
+      &.active {
+        > a {
+          font-weight: bold;
+          background: rgba(0,0,0,.4);
+
+          i {
+            color: #fff;
+          }
+        }
+
+
+      }
+
+      &.bottom {
+        border: none;
+        border-top: 1px solid #4A4A54;
+
+        a {
+          bottom: 7px;
+          position: absolute;
+
+          &:hover {
+            background: transparent;
+          }
+        }
+      }
+    }
+
+
+  }
+}
+
+nav#primary {
+  background: image-url("linen-gray.png");
+  float: left;
+  height: 100%;
+  width: 80px;
+
+  > ul {
+    > li {
+
+
+
+      > a {
+        font-size: 11px;
+        line-height: 32px;
+        opacity: .9;
+
+        i {
+          display: block;
+          font-size: 32px;
+          padding-top: 14px;
+          width: 100%;
+          height: 36px;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+
+
+}
+
+nav#secondary {
+  float: left;
+  width: 200px;
+  height: 100%;
+  background: image-url("linen-gray.png");
+  @include box-shadow(-2px 0px 15px rgba(0, 0, 0, 0.4));
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+
+  > ul {
+    > li {
+      > a {
+        font-size: 12px;
+        line-height: 28px;
+        padding-left: 15px;
+        text-align: left;
+
+        i {
+          font-size: 28px;
+          vertical-align: middle;
+        }
+      }
+
+      &.active {
+        > a {
+          @include std-bg(#ececec, #c5c5c5);
+          color: #35353C;
+          @include text-shadow(0px 1px 1px rgba(#F8F8F8,0.5));
+
+          i {
+            color: #35353C;
+          }
+        }
+      }
+    }
+  }
+}
+
+section#main {
+  height: 100%;
+  overflow: auto;
+
+}
+
+
+.box {
+  @include box-shadow(0px 2px 4px rgba(0, 0, 0, 0.4));
+  @include border-radius(5px);
+  background: #F1F1F1;
+  margin-bottom: 20px;
+
+  .black-box {
+    @include box-shadow(none);
+  }
+}
+
+.padded {
+  padding: 20px;
+}
+
+.hpadded {
+  padding: 0 20px;
+}
+
+.vpadded {
+  padding: 20px 0;
+}
+
+
+
+.black-box {
+  @include black-box;
+  margin-bottom: 20px;
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+.footer {
+
+  padding: 5px 10px;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  @include text-shadow(rgba(0, 0, 0, 0.4) 0 1px 0);
+  @include border-radius(20px);
+  @include box-shadow(rgba(0, 0, 0, 0.2) 0 1px 2px inset,rgba(255, 255, 255, 0.4) 0 1px 0);
+
+  max-width: 270px;
+  margin-bottom: 40px;
+
+  line-height: 25px;
+  background: rgba(0,0,0,.1);
+  @include border-radius(6px);
+
+  text-align: center;
+  color: white;
+  @include text-shadow(0 1px rgba(0, 0, 0, .8));
+  a {
+    color: #ddd;
+    &:hover {
+      color: #ccc;
+    }
+  }
+}

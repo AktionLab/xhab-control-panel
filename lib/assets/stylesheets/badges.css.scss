@@ -1,0 +1,63 @@
+@import "button_mixins";
+@import "mixin_helpers";
+
+$blue-badge: #236ea4;
+$gray-badge: #e7e7e7;
+$red-badge: darken(red, 10);
+$purple-badge: purple;
+$yellow-badge: darken(yellow, 10);
+$green-badge: green;
+$black-badge: lighten(black, 15);
+$light-gray-badge: lighten($gray,5);
+
+
+@mixin badge($base) {
+  background: $base;
+  @include box-shadow(0 1px 0 #fff);
+  @include text-shadow-bottom(#fff);
+  color: #888;
+  border: 1px solid darken($base, 31);
+}
+
+@mixin inverted-badge($base) {
+  @include box-shadow(0px 1px 0px 0px rgba(255, 255, 255, 0.3));
+  color: #fff;
+  background: $base;
+  border: 1px solid darken($base, 13);
+  @include text-shadow(0px 1px 1px rgba(0, 0, 0, 0.8));
+
+}
+
+.badge {
+  @include badge($gray-badge);
+  line-height: 14px;
+  padding: 1px 9px 1px;
+
+  &.blue {
+    @include inverted-badge($blue-badge);
+  }
+
+  &.red {
+    @include inverted-badge($red-badge);
+  }
+
+  &.purple {
+    @include inverted-badge($purple-badge);
+  }
+
+  &.yellow {
+    @include inverted-badge($yellow-badge);
+  }
+
+  &.green {
+    @include inverted-badge($green-badge);
+  }
+
+  &.black {
+    @include inverted-badge($black-badge);
+  }
+
+  &.light-gray {
+    @include inverted-badge($light-gray-badge);
+  }
+}

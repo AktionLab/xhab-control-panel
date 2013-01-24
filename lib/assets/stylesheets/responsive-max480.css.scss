@@ -1,0 +1,15 @@
+@import "compass";
+
+@media (max-width: 480px) {
+
+  nav#primary {
+    > ul > li {
+      width: 33.3%;
+      margin-left: -3px;
+    }
+  }
+
+  .modal.black-box .modal-header .close {
+    margin-top: -5px;
+  }
+}

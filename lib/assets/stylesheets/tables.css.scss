@@ -1,0 +1,32 @@
+@import "compass";
+@import "mixin_helpers";
+
+table.box {
+
+  background-color: #FAFAFA;
+
+  thead, tfoot {
+    @include std-bg(#ebebeb, #e5e5e5);
+    color: #898989;
+    @include text-shadow-bottom(#fff);
+    @include border-radius(3px 3px 0 0, 3px 3px 0 0);
+  }
+
+  &.table-striped tbody tr:nth-child(odd) td, &.table-striped tbody tr:nth-child(odd) th {
+    background: #FDFDFD;
+  }
+
+  .button {
+    i {
+      font-size: 14px;
+    }
+    line-height: normal;
+  }
+
+}
+
+.inner-well {
+  .table th, .table td {
+    border: none;
+  }
+}

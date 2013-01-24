@@ -1,0 +1,55 @@
+<div class="tabbable black-box" style="margin-bottom: 18px;">
+
+  <div class="tab-header">
+    System status
+        <span class="pull-right">
+          <span class="options">
+            <div class="btn-group">
+              <a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></a>
+              <ul class="dropdown-menu black-box-dropdown dropdown-left">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </div>
+          </span>
+        </span>
+  </div>
+
+  <ul class="nav nav-tabs">
+    <li class=""><a href="#tab1" data-toggle="tab"><i class="icon-globe"></i> System</a></li>
+    <li class="active"><a href="#tab2" data-toggle="tab"><i class="icon-hdd"></i> Server</a></li>
+  </ul>
+  <div class="tab-content">
+
+    <div class="tab-pane" id="tab1">
+      <div class="separator">
+        <% #render :partial => "dashboard/antivirus_proxy" %>
+      </div>
+      <div class="separator">
+        <div class="inner-well">
+          <div id="stats1" style="width: 100%; height: 100px;"></div>
+        </div>
+      </div>
+      <div class="padded">
+        <% #render :partial => "pages/partials/fix_stats", locals: {id: "fix-stats"} %>
+      </div>
+    </div>
+
+    <div class="tab-pane active" id="tab2">
+      <div class="separator">
+        <div class="inner-well">
+          <div id="stats2" style="width: 100%; height: 100px;"></div>
+        </div>
+      </div>
+      <div class="separator">
+        <% #render :partial => "pages/partials/antivirus_proxy" %>
+      </div>
+      <div class="padded">
+        <% # render :partial => "pages/partials/fix_stats", locals: {id: "fix-stats2"} %>
+      </div>
+    </div>
+  </div>
+</div>

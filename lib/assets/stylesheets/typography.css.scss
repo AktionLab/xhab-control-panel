@@ -1,0 +1,11 @@
+@import "mixin_helpers";
+
+@mixin emphasis-text {
+  color: #fff;
+  @include text-shadow(0px 1px 1px rgba(#000,0.5));
+  font-weight: bold;
+}
+
+p {
+  line-height: 20px;
+}

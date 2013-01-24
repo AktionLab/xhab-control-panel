@@ -1,0 +1,15 @@
+@import "compass";
+
+.external-event {
+  input {
+    height: 25px;
+    line-height: 25px;
+    margin: 0;
+
+  }
+
+  input, input:focus {
+    @include box-shadow(none);
+
+  }
+}

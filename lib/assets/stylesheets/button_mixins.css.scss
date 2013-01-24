@@ -1,0 +1,85 @@
+@import "mixin_helpers";
+
+$white: #ededed;
+$gray: #3A3A40;
+$blue: #147CB9;
+$red: desaturate(red, 40%);
+$green: desaturate(lighten(green, 5%), 40%);
+$black: lighten(black, 15);
+$light-gray: lighten($gray,5);
+
+
+
+@mixin simple-button() {
+  @include box-shadow(rgba(255, 255, 255, 0.1) 0px 1px 0px 0px inset);
+  @include border-radius(5px);
+  white-space: nowrap;
+  display: inline-block;
+  text-overflow: ellipsis;
+
+  @include box-sizing(border-box);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 6px 10px;
+  text-align: center;
+  color: #434343;
+  line-height: 1;
+}
+
+@mixin button-disabled($base) {
+  background: desaturate(lighten($base, 8), 20%);
+  @include text-shadow(none);
+  border: 1px solid $base;
+  cursor: default;
+
+  &:hover, &:active {
+    background: desaturate(lighten($base, 8), 20%);
+    @include box-shadow(none);
+  }
+}
+
+@mixin button-color($base) {
+  @include std-bg(lighten($base, 8), $base);
+  @include text-shadow(rgba(#fff, 0.5) 0 1px 1px);
+  border: 1px solid darken($base, 10);
+
+
+  &.inset {
+    @include text-shadow(rgba(#fff, 0.5) 0 -1px 1px);
+  }
+  &.disabled {
+    @include button-disabled($base);
+  }
+
+  &:hover {
+    @include std-bg(lighten($base, 4), darken($base,4));
+  }
+
+  &:active {
+    @include std-bg(darken($base,9), darken($base,2));
+  }
+}
+
+@mixin invert-button-color($base) {
+  @include std-bg(lighten($base,14), $base);
+  border: 1px solid darken($base, 5);
+  @include text-shadow(rgba(#000, 0.5) 0px 1px 1px);
+  color: white;
+
+  &.inset {
+    @include text-shadow(rgba(#000, 0.5) 0px -1px 1px);
+  }
+
+  &.disabled {
+    @include button-disabled($base);
+  }
+
+  &:hover {
+    @include std-bg(lighten($base,18), lighten($base,5));
+  }
+
+  &:active {
+    @include std-bg(lighten($base,18), lighten($base,5));
+    @include box-shadow(inset 0px 0px 5px rgba(0,0,0,0.5), 0px 1px 0px rgba(0,0,0,0.0));
+  }
+}
