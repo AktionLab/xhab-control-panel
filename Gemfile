@@ -13,6 +13,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :staging, :production do
+  gem 'mysql2'
+end
+
 group :development do
   gem 'aktion_cap' 
 end
