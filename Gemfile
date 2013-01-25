@@ -15,6 +15,7 @@ end
 
 group :staging, :production do
   gem 'mysql2'
+  gem 'unicorn'
 end
 
 group :development do
