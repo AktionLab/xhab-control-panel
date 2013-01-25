@@ -56,7 +56,7 @@ XhabNew::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
   
-  root :to => "pages#show", :id => 'home'
+  root :to => "dashboard#index"
   resources :dashboard, :only => 'index'
   get '/:id', :to => 'pages#show', :as => :pages
      
