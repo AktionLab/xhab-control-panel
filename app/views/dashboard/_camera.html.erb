@@ -1,0 +1,55 @@
+<SCRIPT LANGUAGE="JavaScript">
+ // Set the BaseURL to the url of your camera
+ // Example:  var BaseURL = "http://172.21.1.122/";
+ // Since this file is located inside the unit itself, no base url is specified here
+ var BaseURL = "http://128.196.12.29/";
+
+ // DisplayWidth & DisplayHeight specifies the displayed width & Height of the image.
+ // You may change these numbers, the effect will be a strech or a shrink of the image
+ var DisplayWidth = "640";
+ var DisplayHeight = "480";
+
+ // This is the filepath to the video generating file inside the camera itself
+ var File = "axis-cgi/mjpg/video.cgi?resolution=640x480";
+
+ // No changes required below this point
+
+var output = "";
+if ((navigator.appName == "Microsoft Internet Explorer")&&(navigator.platform != "MacPPC")&&(navigator.platform != "Mac68k"))
+{ 
+ // If Internet Explorer for Windows then use ActiveX 
+  output =  "<OBJECT ID=\"CamImage\" WIDTH="
+  output += DisplayWidth;
+  output += " HEIGHT=";
+  output += DisplayHeight;
+  output += " CLASSID=CLSID:917623D1-D8E5-11D2-BE8B-00104B06BDE3 ";
+  output += "CODEBASE=\"";
+  output += BaseURL;
+  output += "activex/AxisCamControl.ocx#Version=1,0,1,42\">";
+  output += "<PARAM NAME=\"URL\" VALUE=\"";
+  output += BaseURL;
+  output += File;
+  output += "\"> <BR><B>Axis ActiveX Camera Control</B><BR>";
+  output += "The AXIS ActiveX Camera Control, which enables you ";
+  output += "to view live image streams in Microsoft Internet";
+  output += " Explorer, could not be registered on your computer.";
+  output += "<BR></OBJECT>"; 
+} 
+else 
+{
+  // If not IE for Windows use the browser itself to display
+  output = "<IMG SRC=\"";
+  output += BaseURL;
+  output += File;
+  output += "&dummy=garb\" HEIGHT=\"";
+  // The above dummy cgi-parameter helps some versions of NS
+  output += DisplayHeight;
+  output += "\" WIDTH=\"";
+  output += DisplayWidth;
+  output += "\" ALT=\"Moving Image Stream\">";
+} 
+
+document.write(output);
+
+</SCRIPT>
+

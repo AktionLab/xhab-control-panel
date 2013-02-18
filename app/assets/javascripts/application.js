@@ -10,7 +10,27 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery_ujs
+//= require jquery172
+//= require jqueryui
+//= require highcharts
+//= require ros
+//= require rosbridge
 //= require raphael
-//= require_tree .
+// require underscore
+// require template
+// require notification
+// require notifications
+// require notifications_demo
+//= require bootstrap/bootstrap
+//= require chosen-jquery
+//= require tagify
+//= require dataTables/jquery.dataTables
+//= require fullcalendar/fullcalendar
+//= require bootstrap_image_gallery/load_image
+//= require bootstrap_image_gallery/bootstrap_image_gallery
+//= require jqueryFlot/jquery.flot
+//= require jqueryFlot/jquery.flot.resize
+//= require faq
+//= require navigation
+//= require login
+//= require search
