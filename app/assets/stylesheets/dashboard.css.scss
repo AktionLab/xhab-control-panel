@@ -9,3 +9,34 @@ h4 {
   font-size: 10px;
   color: #fff;
 }
+
+.ui-context {
+  display: none;
+}
+
+.led-array-container {
+  padding-bottom: 8px;
+}
+
+.led-slider.ui-slider {
+  margin: 6px;
+  box-sizing: border-box;
+  background: #000;
+  .ui-slider-range {
+    background: #000;
+    &.led-power-0 {
+      background: #000;
+    }
+    &.led-power-1 {
+      background: #555;
+    }
+    &.led-power-2 {
+      background: #999;
+    }
+    &.led-power-3 {
+      background: #fff;
+    }
+  }
+}
+
+

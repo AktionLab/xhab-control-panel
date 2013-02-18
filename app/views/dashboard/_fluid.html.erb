@@ -2,108 +2,78 @@
 
   <div class="tab-header">
     Fluid System
-    <span class="pull-right">
-      <span class="options">
-        <div class="btn-group">
-          <a class="dropdown-toggle" data-toggle="dropdown"><i class="icon-cog"></i></a>
-          <ul class="dropdown-menu black-box-dropdown dropdown-left">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </div>
-      </span>
-    </span>
   </div>
 
-  <ul class="nav nav-tabs">
-    <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-bar-chart"></i>Telemetry</a></li>
-    <li><a href="#tab2" data-toggle="tab"><i class="icon-cogs"></i>Control</a></li>
-    <li><a href="#tab3" data-toggle="tab"><i class="icon-book"></i>System Log</a></li>
-  </ul>
   <div class="tab-content">
-
     <div class="tab-pane active" id="tab1">
-      <div class="separator">
-        <div class="inner-well">
-          <b>Temperature</b>
-          <span class="pull-right">60.5</span>
+      <div class="row-fluid">
+        <div class="span6">
+          <div class="padded">
+            <div class="inner-well">
+              <b>Temperature (&deg;C)</b>
+              <span class="fluid-temp-value pull-right"></span>
+            </div>
+            <div class="inner-well">
+              <b>Conductivity (ppm)</b>
+              <span class="fluid-tds-value pull-right"></span>
+            </div>
+            <div class="inner-well">
+              <b>pH</b>
+              <span class="fluid-ph-value pull-right"></span>
+            </div>
+            <div class="inner-well">
+              <b>Line Pressure</b>
+              <span class="fluid-line-pressure-value pull-right"></span>
+            </div>
+          </div>
         </div>
-        <div class="inner-well">
-          <b>Conductivity</b>
-          <span class="pull-right">720</span>
-        </div>
-        <div class="inner-well">
-          <b>pH</b>
-          <span class="pull-right">6.2</span>
-        </div>
-        <div class="inner-well">
-          <b>Line Pressure</b>
-          <span class="pull-right">14</span>
-        </div>
-        <div class="inner-well">
-          <b>Solenoid Valve</b>
-          <span class="pull-right">
-            <input type="checkbox" id="toggle-solenoid" class="checky" />
-            <label for="toggle-solenoid" class="checky"><span></span></label>
-          </span>
-        </div>
-        <div class="inner-well">
-          <b>Pump</b>
-          <span class="pull-right">
-            <input type="checkbox" id="toggle-pump" class="checky" />
-            <label for="toggle-pump" class="checky"><span></span></label>
-          </span>
+        <div class="span6">
+          <div class="padded">
+            <div class="inner-well">
+              <b>Solenoid Valve</b>
+              <span class="pull-right">
+                <input type="checkbox" id="toggle-solenoid" class="checky" checked=true />
+                <label for="toggle-solenoid" class="checky"><span></span></label>
+              </span>
+            </div>
+            <div class="inner-well">
+              <b>Pump</b>
+              <span class="pull-right">
+                <input type="checkbox" id="toggle-pump" class="checky" />
+                <label for="toggle-pump" class="checky"><span></span></label>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="separator">
-        <div class="inner-well">
-          <div id="fluid-chart-line-pressure" style="width: 100%; height: 200px;"></div>
-        </div>
-      </div>
-      <div class="padded">
-        <% #render :partial => "pages/partials/fix_stats", locals: {id: "fix-stats"} %>
-      </div>
-    </div>
 
-    <div class="tab-pane" id="tab2">
-      <div class="separator">
-        <div class="inner-well">
-          <b>Solenoid Valve</b>
-          <span class="pull-right">
-            <input type="checkbox" id="toggle-solenoid" class="checky" />
-            <label for="toggle-solenoid" class="checky"><span></span></label>
-          </span>
+      <div class="row-fluid">
+        <div class="span6">
+          <div class="padded">
+            <div class="inner-well">
+              <div id="fluid-chart-line-pressure" class="chart" style="width: 100%; height: 200px;"></div>
+            </div>
+          </div>
+          <div class="padded">
+            <div class="inner-well">
+              <div id="fluid-chart-temp" class="chart" style="width: 100%; height: 200px;"></div>
+            </div>
+          </div>
         </div>
-        <div class="inner-well">
-          <b>Pump</b>
-          <span class="pull-right">
-            <input type="checkbox" id="toggle-pump" class="checky" />
-            <label for="toggle-pump" class="checky"><span></span></label>
-          </span>
+        <div class="span6">
+          <div class="padded">
+            <div class="inner-well">
+              <div id="fluid-chart-ph" class="chart" style="width: 100%; height: 200px;"></div>
+            </div>
+          </div>
+          <div class="padded">
+            <div class="inner-well">
+              <div id="fluid-chart-tds" class="chart" style="width: 100%; height: 200px;"></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="separator">
-        <div class="inner-well">
-          <b>Line Pressure</b>
-          <span class="pull-right">14</span>
-        </div>
-        <div class="inner-well">
-          <b>Line Pressure</b>
-          <span class="pull-right">14</span>
-        </div>
-      </div>
-      <div class="padded">
-        <% # render :partial => "pages/partials/fix_stats", locals: {id: "fix-stats2"} %>
-      </div>
-    </div>
 
-    <div class="tab-pane" id="tab3">
-      <div class="separator">
-
-      </div>
     </div>
   </div>
 </div>

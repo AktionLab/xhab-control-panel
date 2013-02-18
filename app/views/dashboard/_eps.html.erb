@@ -1,0 +1,18 @@
+<div class="span6">
+  <div class="black-box">
+    <div class="tab-header">LEDs</div>
+    <div class="padded">
+    <% 5.times do |i| %>
+      <div class="led-array-container">
+        <b>Array <%= i+1 %> </b>
+        <span class="pull-right value">Off</span><br />
+        <div class="slider led-slider"></div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="span6">
+  <%= render 'camera' %>
+</div>
