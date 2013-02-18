@@ -264,7 +264,7 @@ subscribe_to_ultrasound = ->
 #-------------------------------------------
 
 ultrasound_handler = (response) ->
-  chart = window.systems.fluid.charts.line_pressure
+  chart = window.charts.line_pressure
   series = chart.series[0]
   if series.data.length > 50
     shift = true
