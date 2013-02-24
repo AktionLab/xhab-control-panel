@@ -22,7 +22,8 @@ window.charts = {}
 $ ->
   init_view_switching()
   init_rosbridge()
-  init_fluid_line_pressure_chart()
+  init_fluid_line_pressure_upstream_chart()
+  init_fluid_line_pressure_downstream_chart()
   init_fluid_ph_chart()
   init_fluid_temperature_chart()
   init_fluid_tds_chart()
@@ -149,7 +150,7 @@ init_fluid_tds_chart = ->
       tickInterval: 500,
       minPadding: 0.1,
       title: {
-        text: "Parts per million (ppm)",
+        text: "ppm",
       }
     },
     series: [{
@@ -189,16 +190,15 @@ init_fluid_temperature_chart = ->
     }]
   }
 
-
-init_fluid_line_pressure_chart = ->
-  window.charts.line_pressure = new Highcharts.Chart {
+init_fluid_line_pressure_upstream_chart = ->
+  window.charts.line_pressure_upstream = new Highcharts.Chart {
     chart: {
-      renderTo: 'fluid-chart-line-pressure',
+      renderTo: 'fluid-chart-line-pressure-upstream',
       defaultSeriesType: 'area',
     },
     legend: false,
     title: {
-      text: 'Line Pressure',
+      text: 'Upstream Line Pressure',
     },
     xAxis: {
       type: 'datetime',
@@ -235,7 +235,7 @@ init_fluid_line_pressure_chart = ->
       tickInterval: 0.25,
       minPadding: 0.1,
       title: {
-        text: "Pressure (psi)",
+        text: "PSI",
       }
     },
     series: [{
@@ -245,6 +245,60 @@ init_fluid_line_pressure_chart = ->
   },
   subscribe_to_ultrasound() 
 
+init_fluid_line_pressure_downstream_chart = ->
+  window.charts.line_pressure_downstream = new Highcharts.Chart {
+    chart: {
+      renderTo: 'fluid-chart-line-pressure-downstream',
+      defaultSeriesType: 'area',
+    },
+    legend: false,
+    title: {
+      text: 'Downstream Line Pressure',
+    },
+    xAxis: {
+      type: 'datetime',
+      minRange: 500,
+      tickInterval: 5000,
+      rangeSelector: {
+        buttons: [{
+          type: 'minute',
+          count: 1,
+          text: '1m', 
+        },{
+          type: 'minute',
+          count: 5,
+          text: '5m', 
+        },{
+          type: 'minute',
+          count: 10,
+          text: '10m',
+        },{
+          type: 'minute',
+          count: 30,
+          text: '30m',
+        },{
+          type: 'hour',
+          count: 1,
+          text: '1h'
+        }],
+        selected: 1,
+      }
+    },
+    yAxis: {
+      min: 0,
+      max: 1,
+      tickInterval: 0.25,
+      minPadding: 0.1,
+      title: {
+        text: "PSI",
+      }
+    },
+    series: [{
+      name: "Line Pressure",
+      data: [],
+    }]
+  },
+  subscribe_to_ultrasound() 
 
 #-------------------------------------------
 # Subscribers

@@ -6,34 +6,50 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="tab1">
+      
       <div class="row-fluid">
-        <div class="span6">
+        <div class="span4">
           <div class="padded">
             <div class="inner-well">
               <b>Temperature (&deg;C)</b>
-              <span class="fluid-temp-value pull-right"></span>
+              <span class="fluid-temp-value sensor-value pull-right">0</span>
             </div>
             <div class="inner-well">
               <b>Dissolved Solids (ppm)</b>
-              <span class="fluid-tds-value pull-right"></span>
+              <span class="fluid-tds-value sensor-value pull-right">0</span>
             </div>
             <div class="inner-well">
               <b>pH</b>
-              <span class="fluid-ph-value pull-right"></span>
-            </div>
-            <div class="inner-well">
-              <b>Line Pressure</b>
-              <span class="fluid-line-pressure-value pull-right"></span>
+              <span class="fluid-ph-value sensor-value pull-right">0</span>
             </div>
           </div>
         </div>
-        <div class="span6">
+        <div class="span4">
           <div class="padded">
             <div class="inner-well">
-              <b>Solenoid Valve</b>
+              <b>Upstream Pressure</b>
+              <span class="fluid-line-pressure-upstream-value sensor-value pull-right">0</span>
+            </div>
+            <div class="inner-well">
+              <b>Downstream Pressure</b>
+              <span class="fluid-line-pressure-downstream-value sensor-value pull-right">0</span>
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="padded">
+            <div class="inner-well">
+              <b>Main Control Solenoid Valve</b>
               <span class="pull-right">
-                <input type="checkbox" id="toggle-solenoid" class="checky" checked=true />
-                <label for="toggle-solenoid" class="checky"><span></span></label>
+                <input type="checkbox" id="toggle-solenoid-main" class="checky" />
+                <label for="toggle-solenoid-main" class="checky"><span></span></label>
+              </span>
+            </div>
+            <div class="inner-well">
+              <b>Line Flush Control Solenoid Valve</b>
+              <span class="pull-right">
+                <input type="checkbox" id="toggle-solenoid-flush" class="checky" />
+                <label for="toggle-solenoid-flush" class="checky"><span></span></label>
               </span>
             </div>
             <div class="inner-well">
@@ -51,24 +67,29 @@
         <div class="span6">
           <div class="padded">
             <div class="inner-well">
-              <div id="fluid-chart-line-pressure" class="chart" style="width: 100%; height: 200px;"></div>
+              <div id="fluid-chart-temp" class="chart chart-fluid"></div>
             </div>
           </div>
           <div class="padded">
             <div class="inner-well">
-              <div id="fluid-chart-temp" class="chart" style="width: 100%; height: 200px;"></div>
+              <div id="fluid-chart-ph" class="chart chart-fluid"></div>
+            </div>
+          </div>
+          <div class="padded">
+            <div class="inner-well">
+              <div id="fluid-chart-tds" class="chart chart-fluid"></div>
             </div>
           </div>
         </div>
         <div class="span6">
           <div class="padded">
             <div class="inner-well">
-              <div id="fluid-chart-ph" class="chart" style="width: 100%; height: 200px;"></div>
+              <div id="fluid-chart-line-pressure-upstream" class="chart chart-fluid"></div>
             </div>
           </div>
           <div class="padded">
             <div class="inner-well">
-              <div id="fluid-chart-tds" class="chart" style="width: 100%; height: 200px;"></div>
+              <div id="fluid-chart-line-pressure-downstream" class="chart chart-fluid"></div>
             </div>
           </div>
         </div>
