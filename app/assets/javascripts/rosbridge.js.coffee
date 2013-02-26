@@ -27,13 +27,26 @@ $ ->
   init_fluid_ph_chart()
   init_fluid_temperature_chart()
   init_fluid_tds_chart()
-  
+  init_mjpegcanvas()
+
 init_rosbridge = ->
   window.ros = new ROS()   
   window.ros.on('error', (e) ->
     log('ROS error: ' + e)
   )
   window.ros.connect window.rosbridge_host
+
+#-------------------------------------------
+# Streaming Video
+#-------------------------------------------
+init_mjpegcanvas = ->
+  mjpeg = new MjpegCanvas {
+    host : 'localhost',
+    topic : '/l_forearm_cam/image_color',
+    canvasID : 'main-cam',
+    width : 800,
+    height : 600
+  }
 
 #-------------------------------------------
 # UI Control

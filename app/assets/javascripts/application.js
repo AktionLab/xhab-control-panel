@@ -13,8 +13,10 @@
 //= require jquery172
 //= require jqueryui
 //= require highcharts
+//= require eventemitter2
 //= require ros
 //= require rosbridge
+//= require mjpegcanvas
 //= require raphael
 // require underscore
 // require template
