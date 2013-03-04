@@ -94,7 +94,19 @@ $ ->
         value = "2/3 power"
       else if ui.value == 3
         value = "Full power"
-      $(event.target).parent().find("span.value").html(value)
+      $(event.target).parent().find("span.value").html("")
+      led_index = $(event.target).data('led-index')
+      led_level = ui.value / 3
+      if window.lights_glow[led_index] != undefined
+        window.lights_glow[led_index].remove()
+      if led_level > 0
+        window.lights_glow[led_index] = window.lights[led_index].glow {
+          color: "#fff",
+          width: led_level*35,
+          opacity: led_level*0.85,
+          fill: true,
+        }
+
       $(event.target).find(".ui-slider-range")
         .removeClass("led-power-0")
         .removeClass("led-power-1")
@@ -102,6 +114,56 @@ $ ->
         .removeClass("led-power-3")
         .addClass("led-power-" + ui.value)
   }
+
+#-------------------------------------------
+# Lights
+#-------------------------------------------
+$ ->
+  light_paper_width = 318
+  light_paper_height = 318
+  center_x_pos = light_paper_width/2
+  center_y_pos = light_paper_width/2
+  led_radius = 40
+  pot_radius = 30
+  base_plate_radius = light_paper_width/2
+  PI = Math.PI
+
+  window.eps_gui = Raphael("raphael-lights-overhead", light_paper_width, light_paper_height)
+  
+  # base plate
+  base_plate = window.eps_gui.circle center_x_pos, center_y_pos, base_plate_radius
+  base_plate.attr "fill", "#555"
+
+  # lights & pots
+  window.lights = window.eps_gui.set()
+  window.lights_glow = window.eps_gui.set()
+  window.pots = window.eps_gui.set()
+  for i in [0..4]
+    angle = (2*PI/5)*i - 0.5*PI
+    x_pos = Math.cos(angle)*0.4*(light_paper_width - 2*led_radius) + 0.5*light_paper_width
+    y_pos = Math.sin(angle)*0.4*(light_paper_height - 2*led_radius) + 0.5*light_paper_height
+    x_pos_label = Math.cos(angle)*0.5*(light_paper_width - 2*led_radius) + 0.5*light_paper_width
+    y_pos_label = Math.sin(angle)*0.5*(light_paper_height - 2*led_radius) + 0.5*light_paper_height
+    circle = window.eps_gui.circle x_pos, y_pos, led_radius
+    circle.attr("stroke", "#fff")
+    circle.attr("fill-opacity", 0.75)
+    window.lights.push(circle)
+    
+    pot = window.eps_gui.circle x_pos, y_pos, pot_radius
+    pot.attr("stroke", "#000")
+    pot.attr("fill", "#000")
+    pot.attr("fill-opacity", 0.5)
+    window.pots.push(pot)
+    
+    window.eps_gui.print(x_pos_label, y_pos_label, "L#{i}", window.eps_gui.getFont("Arial"))
+
+  $("button#rotate-pots-clockwise").click ->
+    log "rotate CW"
+    window.pots.animate({transform: "r10,#{center_x_pos},#{center_y_pos}"}, 1000) 
+
+  $("button#rotate-pots-counterclockwise").click ->
+    log "rotate CCW"
+    window.pots.animate({transform: "r-10,#{center_x_pos},#{center_y_pos}"}, 1000) 
 
 
 #-------------------------------------------
