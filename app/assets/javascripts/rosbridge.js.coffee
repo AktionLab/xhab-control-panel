@@ -116,6 +116,31 @@ $ ->
   }
 
 #-------------------------------------------
+# Soil Sensor Arm
+#-------------------------------------------
+$ ->
+  sensor_arm_width = $("#soil-sensor-arm").parent().width
+  sensor_arm_height = $("#soil-sensor-arm").parent().height
+  
+  window.sensor_gui = Raphael("soil-sensor-arm", 200, 250)
+
+  window.sensor_gui.setStart()
+
+  probe = window.sensor_gui.rect(0,5,100,6)
+  probe.attr "fill", "#4444ff"
+ 
+  arm = window.sensor_gui.rect(10,0,10,150)
+  arm.attr "fill", "#555"
+
+  window.sensor_arm = window.sensor_gui.setFinish()
+
+  $("button#insert-probe").click ->
+    window.sensor_arm.animate({transform: "r90,15,150"}, 1000) 
+ 
+  $("button#remove-probe").click ->
+    window.sensor_arm.animate({transform: "r0,15,150"}, 1000) 
+ 
+#-------------------------------------------
 # Lights
 #-------------------------------------------
 $ ->

@@ -8,7 +8,8 @@
     <div class="tab-pane active" id="tab1">
       
       <div class="row-fluid">
-        <div class="span4">
+        
+        <div class="span3">
           <div class="padded">
             <div class="inner-well">
               <b>Temperature (&deg;C)</b>
@@ -24,7 +25,8 @@
             </div>
           </div>
         </div>
-        <div class="span4">
+        
+        <div class="span3">
           <div class="padded">
             <div class="inner-well">
               <b>Upstream Pressure</b>
@@ -36,17 +38,18 @@
             </div>
           </div>
         </div>
-        <div class="span4">
+        
+        <div class="span3">
           <div class="padded">
             <div class="inner-well">
-              <b>Main Control Solenoid Valve</b>
+              <b>Main Valve</b>
               <span class="pull-right">
                 <input type="checkbox" id="toggle-solenoid-main" class="checky" />
                 <label for="toggle-solenoid-main" class="checky"><span></span></label>
               </span>
             </div>
             <div class="inner-well">
-              <b>Line Flush Control Solenoid Valve</b>
+              <b>Flush Valve</b>
               <span class="pull-right">
                 <input type="checkbox" id="toggle-solenoid-flush" class="checky" />
                 <label for="toggle-solenoid-flush" class="checky"><span></span></label>
@@ -61,6 +64,17 @@
             </div>
           </div>
         </div>
+
+        <div class="span3">
+          <div class="padded">
+            <div class="inner-well">
+              <div id="soil-sensor-arm"></div>
+              <button id="insert-probe" class="btn btn-small">Insert Probe</button>
+              <button id="remove-probe" class="btn btn-small">Remove Probe</button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="row-fluid">
