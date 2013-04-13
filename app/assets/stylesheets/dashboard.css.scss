@@ -22,7 +22,8 @@ table.led-levels td {
   font-size: 10px;
 }
 
-.led-slider.ui-slider {
+.led-slider.ui-slider,
+.joint-slider.ui-slider {
   margin: 6px;
   box-sizing: border-box;
   background: #000;

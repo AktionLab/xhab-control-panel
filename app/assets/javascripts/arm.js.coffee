@@ -1,42 +1,108 @@
-jQuery ->
-  scale = 16
-  R = Raphael("arm-portrait", 400, 400)
-  _base = { width: 4*scale, height: 1*scale }
-  _base_joint = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale, joint_offset_x: 0.5*scale } 
-  _link1 = { width: 1.5*scale, height: 6.75*scale }
-  _joint1 = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale, joint_offset_x: 0.5*scale }
-  _link2 = { width: 1.5*scale, height: 4.6*scale }
-  _joint2 = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale }
-  _link3 = { width: 1.5*scale, height: 3.5*scale }
-  _joint3 = { width: 1.25*scale, height: 1.5*scale, joint_offset_y: 0.5*scale }
-  _joint4 = { width: 1.75*scale, height: 2.5*scale, joint_offset_y: 0.5*scale }
-  _hand = { width: 2*scale, height: 1.25*scale }
-  _gripper = { width: 0.5*scale, height: 2*scale }
+shoulder_rotate_angle = 0
+elbow1_rotate_angle = 0
+elbow2_rotate_angle = 0
 
-  base = R.rect(10,370,_base.width,_base.height).attr({fill: "yellow"})
-  base_joint = R.rect( (base.attrs.x + base.attrs.width/2) - _base_joint.width/2, base.attrs.y - _base_joint.height, _base_joint.width, _base_joint.height).attr({ fill: "black" })
-  base_joint_axis = R.ellipse( base_joint.attrs.x + _base_joint.width/2, base_joint.attrs.y + _base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
-  link1 = R.rect( (base_joint.attrs.x + base_joint.attrs.width/2) - _link1.width/2, (base_joint.attrs.y + _base_joint.joint_offset_y*2) - _link1.height, _link1.width, _link1.height).attr({ fill: "yellow" })
-  joint1 = R.rect( (link1.attrs.x + _link1.width/2) - _joint1.width/2, link1.attrs.y, _joint1.width, _joint1.height).attr({ fill: "black"})
-  joint1_axis = R.ellipse( joint1.attrs.x + _joint1.width/2, joint1.attrs.y + _joint1.joint_offset_y).attr({fill: "red"}) 
-  link2 = R.rect( (joint1.attrs.x + _joint1.width/2) - _link2.width/2, joint1.attrs.y - _link2.height + _joint1.joint_offset_y*2, _link2.width, _link2.height).attr({ fill: "yellow" })
-  joint2 = R.rect( (link2.attrs.x + _link2.width/2) - _joint2.width/2, link2.attrs.y, _joint2.width, _joint2.height).attr({ fill: "black"})
-  joint2_axis = R.ellipse( joint2.attrs.x + _joint2.width/2, joint2.attrs.y + _joint2.joint_offset_y).attr({fill: "red"}) 
-  link3 = R.rect( (joint2.attrs.x + _joint2.width/2) - _link3.width/2, joint2.attrs.y - _link3.height + _joint2.joint_offset_y*2, _link3.width, _link3.height).attr({ fill: "yellow" })
-  joint3 = R.rect( (link3.attrs.x + _link3.width/2) - _joint3.width/2, link3.attrs.y - _joint3.height, _joint3.width, _joint3.height).attr({ fill: "black"})
-  joint4 = R.rect( (joint3.attrs.x + _joint3.width/2) - _joint4.width/2, joint3.attrs.y - _joint4.height, _joint4.width, _joint4.height).attr({ fill: "black"})
-  hand = R.rect( (joint4.attrs.x + _joint4.width/2) - _hand.width/2, joint4.attrs.y - _hand.height, _hand.width, _hand.height).attr({ fill: "gray" })
-  gripper = R.rect( (hand.attrs.x + _hand.width/2) - _gripper.width/2, hand.attrs.y - _gripper.height, _gripper.width, _gripper.height).attr({ fill: "gray" })
-  console.log(base_joint_axis)
+@arm_execute_motion = ->
+  window.shoulder.forEach( (el) ->
+    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy}, 3000)
+  )
+
+  window.elbow1.forEach( (el) ->
+    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy}, 3000)
+  )
+
+  window.elbow2.forEach( (el) ->
+    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + joint2_axis.attrs.cx + "," + joint2_axis.attrs.cy}, 3000)
+  ) 
+   
+
+@rotate_shoulder = (el, i) ->
+  el.attr({transform: "r" + shoulder_rotate_angle + "," + (window.base_joint.attrs.x + window._base_joint.joint_offset_x) + "," + (window.base_joint.attrs.y + window._base_joint.joint_offset_y)})
+
+@rotate_plan_joint = (joint,angle) ->
+  if joint == 0
+    shoulder_rotate_angle = angle
+  else if joint == 1
+    elbow1_rotate_angle = angle
+  else if joint == 2
+    elbow2_rotate_angle = angle
+
+  window.plan_shoulder.forEach( (el) ->
+    el.attr({ transform: "r" + shoulder_rotate_angle + "," + window.plan_base_joint_axis.attrs.cx + "," + window.plan_base_joint_axis.attrs.cy})
+  )
+
+  window.plan_elbow1.forEach( (el) ->
+    el.attr({ transform: "r" + shoulder_rotate_angle + "," + window.plan_base_joint_axis.attrs.cx + "," + window.plan_base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + window.plan_joint1_axis.attrs.cx + "," + window.plan_joint1_axis.attrs.cy})
+  )
+
+  window.plan_elbow2.forEach( (el) ->
+    el.attr({ transform: "r" + shoulder_rotate_angle + "," + window.plan_base_joint_axis.attrs.cx + "," + window.plan_base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + window.plan_joint1_axis.attrs.cx + "," + window.plan_joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + window.plan_joint2_axis.attrs.cx + "," + window.plan_joint2_axis.attrs.cy})
+  ) 
+  
+$ -> 
+  $("#arm-execute-motion").click ->
+    arm_execute_motion()
+
+$ ->
+  console.log 'arm'
+  scale = 16
+  w = window
+  R = Raphael("arm-portrait", 400, 400)
+  w._base = { width: 4*scale, height: 1*scale }
+  w._base_joint = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale, joint_offset_x: 0.5*scale } 
+  w._link1 = { width: 1.5*scale, height: 6.75*scale }
+  w._joint1 = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale, joint_offset_x: 0.5*scale }
+  w._link2 = { width: 1.5*scale, height: 4.6*scale }
+  w._joint2 = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale }
+  w._link3 = { width: 1.5*scale, height: 3.5*scale }
+  w._joint3 = { width: 1.25*scale, height: 1.5*scale, joint_offset_y: 0.5*scale }
+  w._joint4 = { width: 1.75*scale, height: 2.5*scale, joint_offset_y: 0.5*scale }
+  w._hand = { width: 2*scale, height: 1.25*scale }
+  w._gripper = { width: 0.5*scale, height: 2*scale }
+
+  w.base = R.rect(10,370,w._base.width,w._base.height).attr({fill: "yellow"})
+  w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/2) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
+  w.base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
+  w.link1 = R.rect( (w.base_joint.attrs.x + w.base_joint.attrs.width/2) - w._link1.width/2, (w.base_joint.attrs.y + w._base_joint.joint_offset_y*2) - w._link1.height, w._link1.width, w._link1.height).attr({ fill: "yellow" })
+  w.joint1 = R.rect( (w.link1.attrs.x + w._link1.width/2) - w._joint1.width/2, w.link1.attrs.y, w._joint1.width, w._joint1.height).attr({ fill: "black"})
+  w.joint1_axis = R.ellipse( w.joint1.attrs.x + w._joint1.width/2, w.joint1.attrs.y + w._joint1.joint_offset_y).attr({fill: "red"}) 
+  w.link2 = R.rect( (w.joint1.attrs.x + w._joint1.width/2) - w._link2.width/2, w.joint1.attrs.y - w._link2.height + w._joint1.joint_offset_y*2, w._link2.width, w._link2.height).attr({ fill: "yellow" })
+  w.joint2 = R.rect( (w.link2.attrs.x + w._link2.width/2) - w._joint2.width/2, w.link2.attrs.y, w._joint2.width, w._joint2.height).attr({ fill: "black"})
+  w.joint2_axis = R.ellipse( w.joint2.attrs.x + w._joint2.width/2, w.joint2.attrs.y + w._joint2.joint_offset_y).attr({fill: "red"}) 
+  w.link3 = R.rect( (w.joint2.attrs.x + w._joint2.width/2) - w._link3.width/2, w.joint2.attrs.y - w._link3.height + w._joint2.joint_offset_y*2, w._link3.width, w._link3.height).attr({ fill: "yellow" })
+  w.joint3 = R.rect( (w.link3.attrs.x + w._link3.width/2) - w._joint3.width/2, w.link3.attrs.y - w._joint3.height, w._joint3.width, w._joint3.height).attr({ fill: "black"})
+  w.joint4 = R.rect( (w.joint3.attrs.x + w._joint3.width/2) - w._joint4.width/2, w.joint3.attrs.y - w._joint4.height, w._joint4.width, w._joint4.height).attr({ fill: "black"})
+  w.hand = R.rect( (w.joint4.attrs.x + w._joint4.width/2) - w._hand.width/2, w.joint4.attrs.y - w._hand.height, w._hand.width, w._hand.height).attr({ fill: "gray" })
+  w.gripper = R.rect( (w.hand.attrs.x + w._hand.width/2) - w._gripper.width/2, w.hand.attrs.y - w._gripper.height, w._gripper.width, w._gripper.height).attr({ fill: "gray" })
  
-  shoulder = R.set()
-  shoulder.push(link1, joint1, joint1_axis)#, link2, joint2, link3, joint3, joint4)
+  # clone the arm for pose planning
+  w.plan_base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 4, 4).attr({ fill: "red" })
+  w.plan_link1 = w.link1.clone().attr({fill: "white", opacity: 0.5}).data("group", "shoulder")
+  w.plan_joint1 = w.joint1.clone().attr({fill: "white", opacity: 0.5}).data("group", "shoulder")
+  w.plan_joint1_axis = R.ellipse( w.joint1.attrs.x + w._joint1.width/2, w.joint1.attrs.y + w._joint1.joint_offset_y, 4, 4).attr({fill: "red"}) 
+  w.plan_link2 = w.link2.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow1")
+  w.plan_joint2 = w.joint2.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow1")
+  w.plan_joint2_axis = R.ellipse( w.joint2.attrs.x + w._joint2.width/2, w.joint2.attrs.y + w._joint2.joint_offset_y, 4, 4).attr({fill: "red"}) 
+  w.plan_link3 = w.link3.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow2")
+  w.plan_joint3 = w.joint3.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow2")
+  w.plan_joint4 = w.joint4.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow2")
+  w.plan_hand = w.hand.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow2")
+  w.plan_gripper = w.gripper.clone().attr({fill: "white", opacity: 0.5}).data("group", "elbow2")
+ 
+  w.shoulder = R.set()
+  w.shoulder.push(w.link1, w.joint1, w.joint1_axis)#, w.link2, w.joint2, w.link3, w.joint3, w.joint4)
+  w.plan_shoulder = R.set()
+  w.plan_shoulder.push(w.plan_link1, w.plan_joint1, w.plan_joint1_axis)#, w.plan_link2, w.plan_joint2, w.plan_link3, w.plan_joint3, w.plan_joint4)
+
+  w.elbow1 = R.set()
+  w.elbow1.push(w.link2, w.joint2)#, w.link3, w.joint3, w.joint4)
+  w.plan_elbow1 = R.set()
+  w.plan_elbow1.push(w.plan_link2, w.plan_joint2, w.plan_joint2_axis)
   
-  elbow1 = R.set()
-  elbow1.push(link2, joint2)#, link3, joint3, joint4)
-  
-  elbow2 = R.set()
-  elbow2.push(link3, joint3, joint4, hand, gripper)
+  w.elbow2 = R.set()
+  w.elbow2.push(w.link3, w.joint3, w.joint4, w.hand, w.gripper)
+  w.plan_elbow2 = R.set()
+  w.plan_elbow2.push(w.plan_link3, w.plan_joint3, w.plan_joint4, w.plan_hand, w.plan_gripper)
   
   rotate_shoulder = ->
     shoulder.transform("r10," + (base_joint.attrs.x + _base_joint.joint_offset_x) + "," + (base_joint.attrs.y + _base_joint.joint_offset_y))

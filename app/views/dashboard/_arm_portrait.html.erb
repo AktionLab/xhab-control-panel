@@ -2,13 +2,22 @@
   <div class="tab-header">
     Robotic Arm
   </div>
-  <div id="arm-portrait">
-   
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="padded">
+        Shoulder
+        <div id="joint-slider-0" class="slider joint-slider" data-joint="0"></div>
+        Elbow 1
+        <div id="joint-slider-0" class="slider joint-slider" data-joint="1"></div>
+        Elbow 2
+        <div id="joint-slider-0" class="slider joint-slider" data-joint="2"></div>
+      </div>
+      <div class="padded">
+        <button id="arm-execute-motion" class="btn btn-primary">Execute Motion</button>
+      </div>
+    </div>
+    <div class="span6">
+      <div id="arm-portrait"></div>
+    </div>
   </div>
-  <button onclick="javascript:default_pose();">Default Pose</button>
-  <button onclick="javascript:pose1();">Pose1</button>
-  <button onclick="javascript:pose2();">Pose2</button>
-  <button onclick="javascript:pose3();">Pose3</button>
-  <button onclick="javascript:pose4();">Pose4</button>
-  <button onclick="javascript:lie_down();">Lie Down</button>
 </div>

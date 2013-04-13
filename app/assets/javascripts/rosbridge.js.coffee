@@ -78,6 +78,17 @@ log = (message) ->
 #-------------------------------------------
 
 $ ->
+  $(".slider.joint-slider").slider {
+    value: 0,
+    orientation: "horizontal",
+    range: "min",
+    min: -90,
+    max: 90,
+    step: 1,
+    slide: (event, ui) ->
+      rotate_plan_joint($(event.target).data('joint'),ui.value)
+  }
+
   $(".slider.led-slider").slider {
     value: 0,
     orientation: "horizontal",

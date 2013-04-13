@@ -15,7 +15,6 @@
 //= require highcharts
 //= require eventemitter2
 //= require ros
-//= require rosbridge
 //= require mjpegcanvas
 //= require raphael
 // require underscore
@@ -36,3 +35,5 @@
 //= require navigation
 //= require login
 //= require search
+//= require arm
+//= require rosbridge
