@@ -4,11 +4,11 @@
 
 # Rosbridge 
 window.connection = null
-window.rosbridge_host = "ws://localhost:9090"
+window.rosbridge_host = "ws://23.23.182.122:9090"
 
 # ROS topics for pub/sub
 window.topics = {
-  ultrasound: "/ultrasound",
+  temperature: "/data/fluid/temperature",
 }
 
 # Global refs to Highcharts
@@ -22,12 +22,12 @@ window.charts = {}
 $ ->
   init_view_switching()
   init_rosbridge()
-  init_fluid_line_pressure_upstream_chart()
-  init_fluid_line_pressure_downstream_chart()
-  init_fluid_ph_chart()
+  #init_fluid_line_pressure_upstream_chart()
+  #init_fluid_line_pressure_downstream_chart()
+  #init_fluid_ph_chart()
   init_fluid_temperature_chart()
-  init_fluid_tds_chart()
-  init_mjpegcanvas()
+  #init_fluid_tds_chart()
+  #init_mjpegcanvas()
 
 init_rosbridge = ->
   window.ros = new ROS()   
@@ -274,7 +274,7 @@ init_fluid_tds_chart = ->
 
 
 init_fluid_temperature_chart = ->
-  window.charts.temp = new Highcharts.Chart {
+  window.charts.temperature = new Highcharts.Chart {
     chart: {
       renderTo: 'fluid-chart-temp',
       defaultSeriesType: 'area',
@@ -285,13 +285,13 @@ init_fluid_temperature_chart = ->
     },
     xAxis: {
       type: 'datetime',
-      minRange: 500,
-      tickInterval: 5000,
+      minRange: 10,
+      tickInterval: 10000,
     },
     yAxis: {
-      min: 50,
-      max: 90,
-      tickInterval: 10,
+      min: -1.5,
+      max: 1.5,
+      tickInterval: 0.5,
       minPadding: 0.1,
       title: {
         text: "Temp (°C)",
@@ -302,6 +302,7 @@ init_fluid_temperature_chart = ->
       data: [],
     }]
   }
+  subscribe_to_temperature()
 
 init_fluid_line_pressure_upstream_chart = ->
   window.charts.line_pressure_upstream = new Highcharts.Chart {
@@ -355,8 +356,8 @@ init_fluid_line_pressure_upstream_chart = ->
       name: "Line Pressure",
       data: [],
     }]
-  },
-  subscribe_to_ultrasound() 
+  }
+  subscribe_to_temperature() 
 
 init_fluid_line_pressure_downstream_chart = ->
   window.charts.line_pressure_downstream = new Highcharts.Chart {
@@ -365,9 +366,7 @@ init_fluid_line_pressure_downstream_chart = ->
       defaultSeriesType: 'area',
     },
     legend: false,
-    title: {
-      text: 'Downstream Line Pressure',
-    },
+    text: 'Downstream Line Pressure',
     xAxis: {
       type: 'datetime',
       minRange: 500,
@@ -410,36 +409,37 @@ init_fluid_line_pressure_downstream_chart = ->
       name: "Line Pressure",
       data: [],
     }]
-  },
-  subscribe_to_ultrasound() 
+  }
+  subscribe_to_fluid_pressure()
 
 #-------------------------------------------
 # Subscribers
 #-------------------------------------------
 
-subscribe_to_ultrasound = ->
-  ultrasound = new window.ros.Topic {
-    name        : window.topics.ultrasound,
-    messageType : "sensor_msgs/Range"
+subscribe_to_temperature = ->
+  temperature = new window.ros.Topic {
+    name        : window.topics.temperature,
+    messageType : "xhab/Temperature"
   }
-  ultrasound.subscribe (response) ->
-    ultrasound_handler(response)
+  temperature.subscribe (response) ->
+    temperature_handler(response)
 
 
 #-------------------------------------------
 # Response callbacks
 #-------------------------------------------
 
-ultrasound_handler = (response) ->
-  chart = window.charts.line_pressure
+temperature_handler = (response) ->
+  console.log response
+  chart = window.charts.temperature
   series = chart.series[0]
   if series.data.length > 50
     shift = true
   else
     shift = false
-  value = response.range
+  value = response.value
   series.addPoint [response.header.stamp.secs*1000, value], true, shift
-  $(".fluid-line-pressure-value").html(value.toFixed(2))
+  $(".fluid-temperature-value").html(value.toFixed(2))
 
 ph_handler = (response) ->
   chart = window.systems.fluid.charts.ph
