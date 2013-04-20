@@ -3,12 +3,15 @@
 #-------------------------------------------
 
 # Rosbridge 
+window.ros_master_ip = "23.23.182.122"
 window.connection = null
-window.rosbridge_host = "ws://23.23.182.122:9090"
+window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
 # ROS topics for pub/sub
 window.topics = {
-  temperature: "/data/fluid/temperature",
+  temperature:          "/data/fluid/temperature",
+  control_joint_angles: "/control/arm/joint_angles",
+  data_joint_angles:    "/data/arm/joint_angles",
 }
 
 # Global refs to Highcharts
@@ -27,7 +30,9 @@ $ ->
   #init_fluid_ph_chart()
   init_fluid_temperature_chart()
   #init_fluid_tds_chart()
-  #init_mjpegcanvas()
+  #init_arm_camera()
+  init_mjpegcanvas()
+  init_publish_to_joint_angles()
 
 init_rosbridge = ->
   window.ros = new ROS()   
@@ -41,11 +46,11 @@ init_rosbridge = ->
 #-------------------------------------------
 init_mjpegcanvas = ->
   mjpeg = new MjpegCanvas {
-    host : 'localhost',
-    topic : '/l_forearm_cam/image_color',
-    canvasID : 'main-cam',
-    width : 800,
-    height : 600
+    host : window.ros_master_ip,
+    topic : '/gscam/image_raw',
+    canvasID : 'arm-cam',
+    width : 320,
+    height : 240
   }
 
 #-------------------------------------------
@@ -78,13 +83,39 @@ log = (message) ->
 #-------------------------------------------
 
 $ ->
-  $(".slider.joint-slider").slider {
+  $(".slider#joint-slider0").slider {
     value: 0,
     orientation: "vertical",
     range: "min",
-    min: -90,
-    max: 90,
-    step: 1,
+    min: -113,
+    max: 113,
+    step: 0.5,
+    slide: (event, ui) ->
+      joint_index = $(event.target).data("joint")
+      rotate_plan_joint(joint_index,ui.value)
+      $("span#joint#{joint_index}-value").html(ui.value)
+  }
+
+  $(".slider#joint-slider1").slider {
+    value: 0,
+    orientation: "vertical",
+    range: "min",
+    min: -134.6,
+    max: 129.9,
+    step: 0.1,
+    slide: (event, ui) ->
+      joint_index = $(event.target).data("joint")
+      rotate_plan_joint(joint_index,ui.value)
+      $("span#joint#{joint_index}-value").html(ui.value)
+  }
+
+  $(".slider#joint-slider2").slider {
+    value: 0,
+    orientation: "vertical",
+    range: "min",
+    min: -102.9,
+    max: 104.7,
+    step: 0.1,
     slide: (event, ui) ->
       joint_index = $(event.target).data("joint")
       rotate_plan_joint(joint_index,ui.value)
@@ -424,7 +455,16 @@ subscribe_to_temperature = ->
   temperature.subscribe (response) ->
     temperature_handler(response)
 
+#-------------------------------------------
+# Publishers
+#-------------------------------------------
 
+init_publish_to_joint_angles = ->
+  console.log 'creating topic'
+  window.joint_angles_topic = new window.ros.Topic {
+    name        : window.topics.control_joint_angles,
+    messageType : "xhab/TrajectoryJointAngles"
+  }
 #-------------------------------------------
 # Response callbacks
 #-------------------------------------------

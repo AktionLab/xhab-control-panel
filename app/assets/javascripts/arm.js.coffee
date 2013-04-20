@@ -3,19 +3,29 @@ elbow1_rotate_angle = 0
 elbow2_rotate_angle = 0
 
 @arm_execute_motion = ->
-  window.shoulder.forEach( (el) ->
-    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy}, 3000)
-  )
+  message = new window.ros.Message {
+    shoulder1_angle : shoulder_rotate_angle + 114,
+    shoulder2_angle : shoulder_rotate_angle + 112.9,
+    elbow1_angle    : elbow1_rotate_angle + 134.6,
+    elbow2_angle    : elbow2_rotate_angle + 102.9,
+    wrist_angle     : 1,
+    step_number     : 1,
+  }
+  console.log message
+  window.joint_angles_topic.publish message
 
-  window.elbow1.forEach( (el) ->
-    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy}, 3000)
-  )
+  #window.shoulder.forEach( (el) ->
+    #el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy}, 3000)
+  #)
 
-  window.elbow2.forEach( (el) ->
-    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + joint2_axis.attrs.cx + "," + joint2_axis.attrs.cy}, 3000)
-  ) 
+  #window.elbow1.forEach( (el) ->
+    #el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy}, 3000)
+  #)
+
+  #window.elbow2.forEach( (el) ->
+    #el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + joint2_axis.attrs.cx + "," + joint2_axis.attrs.cy}, 3000)
+  #) 
    
-
 @rotate_shoulder = (el, i) ->
   el.attr({transform: "r" + shoulder_rotate_angle + "," + (window.base_joint.attrs.x + window._base_joint.joint_offset_x) + "," + (window.base_joint.attrs.y + window._base_joint.joint_offset_y)})
 
