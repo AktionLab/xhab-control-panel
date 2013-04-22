@@ -12,6 +12,7 @@ window.topics = {
   temperature:          "/data/fluid/temperature",
   control_joint_angles: "/control/arm/joint_angles",
   data_joint_angles:    "/data/arm/joint_angles",
+  control_leds:         "/control_led",
 }
 
 # Global refs to Highcharts
@@ -31,6 +32,7 @@ $ ->
   init_fluid_temperature_chart()
   #init_fluid_tds_chart()
   #init_arm_camera()
+  init_publish_to_control_leds()
   init_mjpegcanvas()
   init_publish_to_joint_angles()
 
@@ -157,6 +159,12 @@ $ ->
         .removeClass("led-power-2")
         .removeClass("led-power-3")
         .addClass("led-power-" + ui.value)
+      
+      message = new window.ros.Message {
+        data : ui.value
+      }
+      window.control_leds_topic.publish message
+      console.log message
   }
 
 #-------------------------------------------
@@ -455,6 +463,14 @@ subscribe_to_temperature = ->
   temperature.subscribe (response) ->
     temperature_handler(response)
 
+subscribe_to_joint_angles = ->
+  joint_angles = new window.ros.Topic {
+    name        : window.topics.data_joint_angles,
+    messageType : "xhab/JointAngles"
+  }
+  joint_angles.subscribe (response) ->
+    joint_angles_handler(response)
+
 #-------------------------------------------
 # Publishers
 #-------------------------------------------
@@ -465,6 +481,14 @@ init_publish_to_joint_angles = ->
     name        : window.topics.control_joint_angles,
     messageType : "xhab/TrajectoryJointAngles"
   }
+
+init_publish_to_control_leds = ->
+  console.log 'init led publisher'
+  window.control_leds_topic = new window.ros.Topic {
+    name        : window.topics.control_leds,
+    messageType : "std_msgs/Int32",
+  }
+
 #-------------------------------------------
 # Response callbacks
 #-------------------------------------------
@@ -480,6 +504,10 @@ temperature_handler = (response) ->
   value = response.value
   series.addPoint [response.header.stamp.secs*1000, value], true, shift
   $(".fluid-temperature-value").html(value.toFixed(2))
+
+joint_angles_handler = (response) ->
+  console.log response
+
 
 ph_handler = (response) ->
   chart = window.systems.fluid.charts.ph
