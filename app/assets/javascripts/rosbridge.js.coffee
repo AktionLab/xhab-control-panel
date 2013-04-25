@@ -12,7 +12,7 @@ window.topics = {
   temperature:          "/data/fluid/temperature",
   control_joint_angles: "/control/arm/joint_angles",
   data_joint_angles:    "/data/arm/joint_angles",
-  control_leds:         "/control_led",
+  control_leds:         "/control/led",
 }
 
 # Global refs to Highcharts
@@ -161,7 +161,8 @@ $ ->
         .addClass("led-power-" + ui.value)
       
       message = new window.ros.Message {
-        data : ui.value
+        id    : $(event.target).data('led-index'),
+        value : ui.value
       }
       window.control_leds_topic.publish message
       console.log message
@@ -486,7 +487,7 @@ init_publish_to_control_leds = ->
   console.log 'init led publisher'
   window.control_leds_topic = new window.ros.Topic {
     name        : window.topics.control_leds,
-    messageType : "std_msgs/Int32",
+    messageType : "xhab/LEDState",
   }
 
 #-------------------------------------------
