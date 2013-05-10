@@ -40,8 +40,12 @@ $ ->
 init_jwplayer = ->
   jwplayer("main-camera").setup
     file: "http://23.23.182.122:8090/test.flv"
+    controlbar: 'none'
+    dock: false
+    icons: 'false'
     autostart: true
     width: '100%'
+    "controlbar.idlehide": true
 
 init_rosbridge = ->
   window.ros = new ROS()   
