@@ -36,4 +36,6 @@
 //= require login
 //= require search
 //= require arm
+//= require jwplayer
+//= require jwplayer.html5
 //= require rosbridge

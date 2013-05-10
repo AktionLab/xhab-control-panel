@@ -35,6 +35,13 @@ $ ->
   init_publish_to_control_leds()
   init_mjpegcanvas()
   init_publish_to_joint_angles()
+  init_jwplayer()
+
+init_jwplayer = ->
+  jwplayer("main-camera").setup
+    file: "http://23.23.182.122:8090/test.flv"
+    height: 200
+    width: 300
 
 init_rosbridge = ->
   window.ros = new ROS()   
