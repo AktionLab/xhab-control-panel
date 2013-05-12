@@ -33,9 +33,9 @@ $ ->
   #init_fluid_tds_chart()
   #init_arm_camera()
   init_publish_to_control_leds()
-  init_mjpegcanvas()
+  #init_mjpegcanvas()
   init_publish_to_joint_angles()
-  init_jwplayer()
+  #init_jwplayer()
 
 init_jwplayer = ->
   jwplayer("main-camera").setup
