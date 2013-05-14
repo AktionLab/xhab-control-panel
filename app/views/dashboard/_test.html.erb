@@ -1,0 +1,99 @@
+<style type="text/css">
+.flowplayer object {
+   width: 640px;
+   height: 400px;
+}
+button.btn {
+  margin: 0 4px 6px 0;
+}
+table.data tr td{
+  padding: 3px;
+}
+</style>
+
+<div class="row-fluid">
+<div class="span12">
+  <div class="black-box">
+    <div style="float:left;width:300px;">
+      <div class="padded">
+      <% 5.times do |i| %>
+        <div class="led-array-container">
+          <b>Array <%= i+1 %> </b>
+          <span class="pull-right value"></span><br />
+          <div id="light-slider-<%= i %>" data-led-index="<%= i %>" class="slider led-slider"></div>
+          <% if i == 0 %>
+          <table width="100%" class="led-levels">
+            <tr>
+              <td width="31%">Off</td>
+              <td width="33%" align="left">1/3</td>
+              <td align="left">2/3</td>
+              <td align="right">Full</td>
+            </tr>
+          </table>
+          <% end %>
+        </div>
+      <% end %>
+        <button id="linear_actuator_down" class="btn btn-small">Linear Actuator EXTEND</button>
+        <button id="linear_actuator_up" class="btn btn-small">Linear Actuator RETRACT</button>
+        <button id="pump_on" class="btn btn-small">Pump ON</button>
+        <button id="pump_off" class="btn btn-small">Pump OFF</button>
+        <button id="upstream_valve_open" class="btn btn-small">Upstream Valve OPEN</button>
+        <button id="upstream_valve_close" class="btn btn-small">Upstream Valve CLOSE</button>
+        <button id="downstream_valve_open" class="btn btn-small">Downstream Valve OPEN</button>
+        <button id="downstream_valve_close" class="btn btn-small">Downstream Valve CLOSE</button>
+        <br />
+        <p>Enter number of seconds to turn. Positive for clockwise. Negative for counterclockwise.</p>
+        <input type="text" id="rotate_table_amount" name="rotate_table" class="input-mini"/>
+        <button id="rotate_table" class="btn btn-small">Rotate table</button>
+        <button id="stop_rotate_table" class="btn btn-small">Stop</button>
+        <br />
+        <input type="text" name="rotate_plant" id="rotate_plant_amount" class="input-mini"/>
+                <button id="rotate_plant" class="btn btn-small">Rotate plant</button>
+        <button id="stop_rotate_plant" class="btn btn-small">Stop</button>
+        <table class="data">
+          <tr>
+            <td>
+             <strong>pH: </strong>
+            </td>
+            <td>
+              <span id="ph"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Temp: </strong>
+            </td>
+            <td>
+              <span id="temp"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Upstream pressure: </strong>
+            </td>
+            <td>
+              <span id="upstream-pressure"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Downstream pressure: </strong>
+            </td>
+            <td>
+              <span id="downstream-pressure"></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div style="float:left: width: 50%;">
+      <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.75">
+        <video autoplay>
+          <source type="video/flash" src="http://23.23.182.122:8090/test.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
+        </video>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>

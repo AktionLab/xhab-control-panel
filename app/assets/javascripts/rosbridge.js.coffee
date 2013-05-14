@@ -9,10 +9,17 @@ window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
 # ROS topics for pub/sub
 window.topics = {
-  temperature:          "/data/fluid/temperature",
-  control_joint_angles: "/control/arm/joint_angles",
-  data_joint_angles:    "/data/arm/joint_angles",
-  control_leds:         "/control/led",
+  data_temperature:        "/data/fluid/temperature",
+  control_joint_angles:    "/control/arm/joint_angles",
+  data_joint_angles:       "/data/arm/joint_angles",
+  control_leds:            "/control/led",
+  control_dc_motor:        "/control/dc_motor",
+  control_linear_actuator: "/control/linear_act",
+  control_pump_state:      "/control/pump_state",
+  control_stepper_motor:   "/control/stepper_motor",
+  data_sensors:            "/data/sensors",
+  data_ph:                 "/data/ph_sensor",
+  data_ec:                 "/data/ec_sensor",
 }
 
 # Global refs to Highcharts
@@ -33,9 +40,12 @@ $ ->
   #init_fluid_tds_chart()
   #init_arm_camera()
   init_publish_to_control_leds()
-  #init_mjpegcanvas()
+  init_publish_to_control_dc_motor()
+  init_publish_to_control_stepper_motor()
+  init_publish_to_control_pump_state()
+  init_publish_to_control_linear_actuator()
   init_publish_to_joint_angles()
-  #init_jwplayer()
+  init_subscribe_to_sensor_data()
 
 init_jwplayer = ->
   jwplayer("main-camera").setup
@@ -79,7 +89,7 @@ init_view_switching = ->
     $(".ui-context").hide()
     $(".ui-context.ui-" + context).show(0,redraw_charts)
     return false
-  $("[data-ui-context=dashboard]").click()
+  $("[data-ui-context=test]").click()
     
 
 #-------------------------------------------
@@ -90,6 +100,152 @@ log = (message) ->
   if console != undefined
     console.log message
 
+#-------------------------------------------
+# Linear Actuator UP
+#-------------------------------------------
+$ ->
+  $("#linear_actuator_up").click ->
+    message = new window.ros.Message {
+      direction : 0,
+      mode      : 1,  
+    }
+    log window.control_linear_actuator_topic 
+    window.control_linear_actuator_topic.publish message
+    console.log message
+
+#-------------------------------------------
+# Linear Actuator DOWN
+#-------------------------------------------
+$ ->
+  $("#linear_actuator_down").click ->
+    message = new window.ros.Message {
+      direction : 1,
+      mode      : 1,  
+    }
+    log window.control_linear_actuator_topic 
+    window.control_linear_actuator_topic.publish message
+    console.log message
+
+#-------------------------------------------
+# DC Motor
+#-------------------------------------------
+$ ->
+  $("#rotate_plant").click ->
+    rotate_amount = $("input#rotate_plant_amount").val()
+    log rotate_amount
+    dir = 0
+    if rotate_amount > 0
+      dir = 1
+    message = new window.ros.Message {
+      direction : dir,
+      mode      : parseInt(Math.abs(rotate_amount)),  
+    }
+    log window.control_dc_motor_topic 
+    window.control_dc_motor_topic.publish message
+    console.log message
+
+#-------------------------------------------
+# Stepper Motor
+#-------------------------------------------
+$ ->
+  $("#rotate_table").click ->
+    scalar = 2/1.8*8
+    steps = parseInt(parseInt($("input#rotate_table_amount").val())*scalar)
+    dir = 0
+    if steps > 0
+      dir = 1
+    message = new window.ros.Message {
+      direction     : dir,
+      enable_hold   : false,
+      steps_desired : Math.abs(steps),  
+    }
+    log window.control_stepper_motor_topic
+    window.control_stepper_motor_topic.publish message
+    console.log message
+
+#-------------------------------------------
+# Pump ON
+#-------------------------------------------
+$ ->
+  $("#pump_on").click ->
+    message = new window.ros.Message {
+      pump_mode    : 1,
+      valve_1_mode : 0, 
+      valve_2_mode : 0,
+    }
+    log window.control_pump_state_topic
+    window.control_pump_state_topic.publish message
+    log message
+
+#-------------------------------------------
+# Pump OFF
+#-------------------------------------------
+$ ->
+  $("#pump_off").click ->
+    message = new window.ros.Message {
+      pump_mode    : 0,
+      valve_1_mode : 0, 
+      valve_2_mode : 0,
+    }
+    log window.control_pump_state_topic
+    window.control_pump_state_topic.publish message
+    log message
+    
+#-------------------------------------------
+# Valve 1 OPEN
+#-------------------------------------------
+$ ->
+  $("#upstream_valve_open").click ->
+    message = new window.ros.Message {
+      pump_mode    : 0,
+      valve_1_mode : 1, 
+      valve_2_mode : 0,
+    }
+    log window.control_pump_state_topic
+    window.control_pump_state_topic.publish message
+    log message
+
+#-------------------------------------------
+# Valve 1 CLOSE
+#-------------------------------------------
+$ ->
+  $("#upstream_valve_close").click ->
+    message = new window.ros.Message {
+      pump_mode    : 0,
+      valve_1_mode : 0, 
+      valve_2_mode : 0,
+    }
+    log window.control_pump_state_topic
+    window.control_pump_state_topic.publish message
+    log message
+
+#-------------------------------------------
+# Valve 2 OPEN
+#-------------------------------------------
+$ ->
+  $("#downstream_valve_open").click ->
+    message = new window.ros.Message {
+      pump_mode    : 0,
+      valve_1_mode : 0, 
+      valve_2_mode : 1,
+    }
+    log window.control_pump_state_topic
+    window.control_pump_state_topic.publish message
+    log message
+
+#-------------------------------------------
+# Valve 2 CLOSE
+#-------------------------------------------
+$ ->
+  $("#downstream_valve_close").click ->
+    message = new window.ros.Message {
+      pump_mode    : 0,
+      valve_1_mode : 0, 
+      valve_2_mode : 0,
+    }
+    log window.control_pump_state_topic
+    window.control_pump_state_topic.publish message
+    log message
 
 #-------------------------------------------
 # Sliders
@@ -175,6 +331,7 @@ $ ->
         id    : $(event.target).data('led-index'),
         value : ui.value
       }
+      log window.control_leds_topic
       window.control_leds_topic.publish message
       console.log message
   }
@@ -469,7 +626,7 @@ init_fluid_line_pressure_downstream_chart = ->
 
 subscribe_to_temperature = ->
   temperature = new window.ros.Topic {
-    name        : window.topics.temperature,
+    name        : window.topics.data_temperature,
     messageType : "xhab/Temperature"
   }
   temperature.subscribe (response) ->
@@ -482,6 +639,32 @@ subscribe_to_joint_angles = ->
   }
   joint_angles.subscribe (response) ->
     joint_angles_handler(response)
+
+init_subscribe_to_sensor_data = ->
+  sensor_data = new window.ros.Topic {
+    name        : window.topics.data_sensors,
+    messageType : "xhab/SensorData"
+  }
+  log sensor_data
+  sensor_data.subscribe (response) ->
+    log 'received'
+    sensor_data_handler(response)
+
+subscribe_to_ph_sensor = ->
+  ph_sensor_data = new window.ros.Topic {
+    name        : window.topics.data_ph,
+    messageType : "std_msgs/Float32"
+  }
+  ph_sensor_data.subscribe (response) ->
+    ph_sensor_data_handler(response)
+
+subscribe_to_pec_sensor = ->
+  ec_sensor_data = new window.ros.Topic {
+    name        : window.topics.data_ec,
+    messageType : "std_msgs/Float32"
+  }
+  ec_sensor_data.subscribe (response) ->
+    ec_sensor_data_handler(response)
 
 #-------------------------------------------
 # Publishers
@@ -501,9 +684,39 @@ init_publish_to_control_leds = ->
     messageType : "xhab/LEDState",
   }
 
+init_publish_to_control_dc_motor = ->
+  console.log 'init dc motor'
+  window.control_dc_motor_topic = new window.ros.Topic {
+    name        : window.topics.control_dc_motor,
+    messageType : "xhab/DcMotor",
+  }
+
+init_publish_to_control_pump_state = ->
+  console.log 'init pump and valves'
+  window.control_pump_state_topic = new window.ros.Topic {
+    name        : window.topics.control_pump_state,
+    messageType : "xhab/PumpState",
+  }
+
+init_publish_to_control_stepper_motor = ->
+  console.log 'init stepper motor'
+  window.control_stepper_motor_topic = new window.ros.Topic {
+    name        : window.topics.control_stepper_motor,
+    messageType : "xhab/Stepper_Motor",
+  }
+
+init_publish_to_control_linear_actuator = ->
+  console.log 'init linear actuator'
+  window.control_linear_actuator_topic = new window.ros.Topic {
+    name        : window.topics.control_linear_actuator,
+    messageType : "xhab/DcMotor",
+  }
+
 #-------------------------------------------
 # Response callbacks
 #-------------------------------------------
+sensor_data_handler = (response) ->
+  log response
 
 temperature_handler = (response) ->
   console.log response
@@ -520,7 +733,6 @@ temperature_handler = (response) ->
 joint_angles_handler = (response) ->
   console.log response
 
-
 ph_handler = (response) ->
   chart = window.systems.fluid.charts.ph
   series = chart.series[0]
@@ -531,5 +743,4 @@ ph_handler = (response) ->
   value = response.range
   series.addPoint [response.header.stamp.secs*1000, value], true, shift
   $(".fluid-ph-value").html(value.toFixed(2))
-
 
