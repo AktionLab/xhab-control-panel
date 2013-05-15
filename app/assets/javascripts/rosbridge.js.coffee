@@ -3,7 +3,7 @@
 #-------------------------------------------
 
 # Rosbridge 
-window.ros_master_ip = "23.23.182.122"
+window.ros_master_ip = "127.0.0.1"
 window.connection = null
 window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
@@ -15,6 +15,7 @@ window.topics = {
   control_leds:            "/control/led",
   control_dc_motor:        "/control/dc_motor",
   control_linear_actuator: "/control/linear_act",
+  control_linear_actuator_water: "/control/linear_act_water",
   control_pump_state:      "/control/pump_state",
   control_stepper_motor:   "/control/stepper_motor",
   data_sensors:            "/data/sensors",
@@ -44,6 +45,7 @@ $ ->
   init_publish_to_control_stepper_motor()
   init_publish_to_control_pump_state()
   init_publish_to_control_linear_actuator()
+  init_publish_to_control_linear_actuator_water()
   init_publish_to_joint_angles()
   init_subscribe_to_sensor_data()
 
@@ -99,6 +101,33 @@ init_view_switching = ->
 log = (message) -> 
   if console != undefined
     console.log message
+
+#-------------------------------------------
+# Linear Actuator Water UP
+#-------------------------------------------
+$ ->
+  $("#linear_actuator_water_up").click ->
+    message = new window.ros.Message {
+      direction : 0,
+      mode      : 240,  
+    }
+    log window.control_linear_actuator_water_topic 
+    window.control_linear_actuator_water_topic.publish message
+    console.log message
+
+#-------------------------------------------
+# Linear Actuator Water DOWN
+#-------------------------------------------
+$ ->
+  $("#linear_actuator_water_down").click ->
+    message = new window.ros.Message {
+      direction : 0,
+      mode      : 126,  
+    }
+    log window.control_linear_actuator_water_topic 
+    window.control_linear_actuator_water_topic.publish message
+    console.log message
+
 
 #-------------------------------------------
 # Linear Actuator UP
@@ -712,11 +741,25 @@ init_publish_to_control_linear_actuator = ->
     messageType : "xhab/DcMotor",
   }
 
+init_publish_to_control_linear_actuator_water = ->
+  console.log 'init linear actuator water'
+  window.control_linear_actuator_water_topic = new window.ros.Topic {
+    name        : window.topics.control_linear_actuator_water,
+    messageType : "xhab/DcMotor",
+  }
+
 #-------------------------------------------
 # Response callbacks
 #-------------------------------------------
 sensor_data_handler = (response) ->
   log response
+  $("#temp").html(response.temp_data.value)
+  $("#upstream-pressure").html(response.pressure_data.side_pressure)
+  $("#downstream-pressure").html(response.pressure_data.back_pressure)
+  $("#moisture-level").html(response.moisture_data)
+  $("#fluid-level-top").html(response.fluid_lvl_data.top_lvl)
+  $("#fluid-level-mid").html(response.fluid_lvl_data.mid_lvl)
+  $("#fluid-level-bot").html(response.fluid_lvl_data.bot_lvl)
 
 temperature_handler = (response) ->
   console.log response

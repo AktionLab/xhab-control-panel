@@ -33,8 +33,10 @@ table.data tr td{
           <% end %>
         </div>
       <% end %>
-        <button id="linear_actuator_down" class="btn btn-small">Linear Actuator EXTEND</button>
-        <button id="linear_actuator_up" class="btn btn-small">Linear Actuator RETRACT</button>
+        <button id="linear_actuator_down" class="btn btn-small">Moisture Probe INSERT</button>
+        <button id="linear_actuator_up" class="btn btn-small">Moisture Probe RETRACT</button>
+        <button id="linear_actuator_water_up" class="btn btn-small">Watering Station RAISE</button>
+        <button id="linear_actuator_water_down" class="btn btn-small">Watering Station LOWER</button>
         <button id="pump_on" class="btn btn-small">Pump ON</button>
         <button id="pump_off" class="btn btn-small">Pump OFF</button>
         <button id="upstream_valve_open" class="btn btn-small">Upstream Valve OPEN</button>
@@ -81,6 +83,38 @@ table.data tr td{
             </td>
             <td>
               <span id="downstream-pressure"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Moisture: </strong>
+            </td>
+            <td>
+              <span id="moisture-level"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Fluid Level Top: </strong>
+            </td>
+            <td>
+              <span id="fluid-level-top"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Fluid Level Mid: </strong>
+            </td>
+            <td>
+              <span id="fluid-level-mid"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Fluid Level Bottom: </strong>
+            </td>
+            <td>
+              <span id="fluid-level-bot"></span>
             </td>
           </tr>
         </table>
