@@ -3,7 +3,7 @@
     Robotic Arm
   </div>
   <div class="row-fluid">
-    <div class="span5">
+    <div class="span6">
       <div class="padded arm-joint-control pull-left">
         <button id="arm-open-gripper" class="btn btn-primary pull-left">OPEN Gripper</button>
         <button id="arm-stop-gripper" class="btn btn-primary pull-left">STOP Gripper</button><br />
@@ -30,12 +30,14 @@
         <div id="arm-portrait" class="pull-left"></div>
       </div>
     </div>
-    <div class="span7">
+    <div class="span3">
       <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="overflow:hidden;width:400px;height:640px;-webkit-transform: rotate(-90deg)">
         <video autoplay>
           <source type="video/flash" src="http://localhost:8090/test1.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
         </video>
       </div>
+    </div>
+    <div class="span3">
       <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="overflow:hidden;width:400px;height:640px;-webkit-transform: rotate(-90deg);">
         <video autoplay>
           <source type="video/flash" src="http://localhost:8090/test3.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
