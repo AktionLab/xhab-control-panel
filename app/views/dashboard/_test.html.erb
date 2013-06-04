@@ -16,7 +16,7 @@ table.data tr td{
   <div class="black-box">
     <div style="float:left;width:300px;">
       <div class="padded">
-      <% 5.times do |i| %>
+      <% 6.times do |i| %>
         <div class="led-array-container">
           <b>Array <%= i+1 %> </b>
           <span class="pull-right value"></span><br />
@@ -121,12 +121,7 @@ table.data tr td{
       </div>
     </div>
     <div style="float:left: width: 50%;">
-      <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.75">
-        <video autoplay>
-          <source type="video/flash" src="http://23.23.182.122:8090/test.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
-        </video>
-      </div>
-    </div>
+          </div>
     <div class="clear"></div>
   </div>
 </div>

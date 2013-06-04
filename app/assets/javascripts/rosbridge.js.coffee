@@ -11,6 +11,7 @@ window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 window.topics = {
   data_temperature:        "/data/fluid/temperature",
   control_joint_angles:    "/control/arm/joint_angles",
+  control_end_effector:    "/control/arm/end_effector",
   data_joint_angles:       "/data/arm/joint_angles",
   control_leds:            "/control/led",
   control_dc_motor:        "/control/dc_motor",
@@ -47,11 +48,12 @@ $ ->
   init_publish_to_control_linear_actuator()
   init_publish_to_control_linear_actuator_water()
   init_publish_to_joint_angles()
+  init_publish_to_end_effector()
   init_subscribe_to_sensor_data()
 
 init_jwplayer = ->
   jwplayer("main-camera").setup
-    file: "http://23.23.182.122:8090/test.flv"
+    file: "http://localhost:8090/test.flv"
     controlbar: 'none'
     dock: false
     icons: 'false'
@@ -109,7 +111,7 @@ $ ->
   $("#linear_actuator_water_up").click ->
     message = new window.ros.Message {
       direction : 0,
-      mode      : 240,  
+      mode      : 200,  
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
@@ -275,6 +277,43 @@ $ ->
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
     log message
+
+#-------------------------------------------
+# End Effector OPEN
+#-------------------------------------------
+$ ->
+  $("#arm-open-gripper").click ->
+    message = new window.ros.Message {
+      data    : 2,
+    }
+    log window.end_effector_topic
+    window.end_effector_topic.publish message
+    log message
+
+#-------------------------------------------
+# End Effector STOP
+#-------------------------------------------
+$ ->
+  $("#arm-stop-gripper").click ->
+    message = new window.ros.Message {
+      data    : 0,
+    }
+    log window.end_effector_topic
+    window.end_effector_topic.publish message
+    log message
+
+#-------------------------------------------
+# End Effector CLOSE
+#-------------------------------------------
+$ ->
+  $("#arm-close-gripper").click ->
+    message = new window.ros.Message {
+      data    : 1,
+    }
+    log window.end_effector_topic
+    window.end_effector_topic.publish message
+    log message
+
 
 #-------------------------------------------
 # Sliders
@@ -704,6 +743,13 @@ init_publish_to_joint_angles = ->
   window.joint_angles_topic = new window.ros.Topic {
     name        : window.topics.control_joint_angles,
     messageType : "xhab/TrajectoryJointAngles"
+  }
+
+init_publish_to_end_effector = ->
+  console.log 'creating topic'
+  window.end_effector_topic = new window.ros.Topic {
+    name        : window.topics.control_end_effector,
+    messageType : "std_msgs/Int32"
   }
 
 init_publish_to_control_leds = ->
