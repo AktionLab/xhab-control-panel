@@ -7,6 +7,14 @@ window.ros_master_ip = "127.0.0.1"
 window.connection = null
 window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
+# pump state globals
+window.pump   = 0
+window.valve1 = 0
+window.valve2 = 0
+
+# end effector direction
+
+
 # ROS topics for pub/sub
 window.topics = {
   data_temperature:        "/data/fluid/temperature",
@@ -201,11 +209,12 @@ $ ->
   $("#pump_on").click ->
     message = new window.ros.Message {
       pump_mode    : 1,
-      valve_1_mode : 0, 
-      valve_2_mode : 0,
+      valve_1_mode : window.valve1, 
+      valve_2_mode : window.valve2,
     }
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
+    window.pump = 1
     log message
 
 #-------------------------------------------
@@ -215,11 +224,12 @@ $ ->
   $("#pump_off").click ->
     message = new window.ros.Message {
       pump_mode    : 0,
-      valve_1_mode : 0, 
-      valve_2_mode : 0,
+      valve_1_mode : window.valve1, 
+      valve_2_mode : window.valve2,
     }
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
+    window.pump = 0
     log message
     
 #-------------------------------------------
@@ -228,12 +238,13 @@ $ ->
 $ ->
   $("#upstream_valve_open").click ->
     message = new window.ros.Message {
-      pump_mode    : 0,
+      pump_mode    : window.pump,
       valve_1_mode : 1, 
-      valve_2_mode : 0,
+      valve_2_mode : window.valve2,
     }
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
+    window.valve1 = 1
     log message
 
 #-------------------------------------------
@@ -242,12 +253,13 @@ $ ->
 $ ->
   $("#upstream_valve_close").click ->
     message = new window.ros.Message {
-      pump_mode    : 0,
+      pump_mode    : window.pump,
       valve_1_mode : 0, 
-      valve_2_mode : 0,
+      valve_2_mode : window.valve2,
     }
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
+    window.valve1 = 0
     log message
 
 #-------------------------------------------
@@ -256,12 +268,13 @@ $ ->
 $ ->
   $("#downstream_valve_open").click ->
     message = new window.ros.Message {
-      pump_mode    : 0,
-      valve_1_mode : 0, 
+      pump_mode    : window.pump,
+      valve_1_mode : window.valve1, 
       valve_2_mode : 1,
     }
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
+    window.valve2 = 1
     log message
 
 #-------------------------------------------
@@ -270,12 +283,13 @@ $ ->
 $ ->
   $("#downstream_valve_close").click ->
     message = new window.ros.Message {
-      pump_mode    : 0,
-      valve_1_mode : 0, 
+      pump_mode    : window.pump,
+      valve_1_mode : window.valve1, 
       valve_2_mode : 0,
     }
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
+    window.valve2 = 0
     log message
 
 #-------------------------------------------
