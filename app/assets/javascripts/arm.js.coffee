@@ -1,6 +1,7 @@
 shoulder_rotate_angle = 0
 elbow1_rotate_angle = 0
 elbow2_rotate_angle = 0
+window.wrist_rotate_angle = 0
 
 @arm_execute_motion = ->
   console.log 'sending angles'
@@ -9,7 +10,7 @@ elbow2_rotate_angle = 0
     shoulder2_angle : shoulder_rotate_angle + 110.9,
     elbow1_angle    : elbow1_rotate_angle + 177.23,
     elbow2_angle    : elbow2_rotate_angle + 106.5,
-    wrist_angle     : 1,
+    wrist_angle     : 0, #window.wrist_rotate_angle,
     step_number     : 1,
   }
   console.log message
@@ -56,23 +57,27 @@ $ ->
 
 $ ->
   console.log 'arm'
-  scale = 21
+  scale = 7
+  arm_base_x = 400
+  arm_base_y = 430
+  current_ee_x = 470
   w = window
-  R = Raphael("arm-portrait", 500, 500)
-  w._base = { width: 4*scale, height: 1*scale }
-  w._base_joint = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale, joint_offset_x: 0.5*scale } 
-  w._link1 = { width: 1.5*scale, height: 6.75*scale }
-  w._joint1 = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale, joint_offset_x: 0.5*scale }
-  w._link2 = { width: 1.5*scale, height: 4.6*scale }
-  w._joint2 = { width: 2*scale, height: 2.5*scale, joint_offset_y: 0.5*scale }
-  w._link3 = { width: 1.5*scale, height: 3.5*scale }
-  w._joint3 = { width: 1.25*scale, height: 1.5*scale, joint_offset_y: 0.5*scale }
-  w._joint4 = { width: 1.75*scale, height: 2.5*scale, joint_offset_y: 0.5*scale }
-  w._hand = { width: 2*scale, height: 1.25*scale }
-  w._gripper = { width: 0.5*scale, height: 2*scale }
+  R = Raphael("arm-portrait", 600, 500)
 
-  w.base = R.rect(10,470,w._base.width,w._base.height).attr({fill: "yellow"})
-  w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/2) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
+  w._base = { width: 4*scale, height: 0*scale }
+  w._base_joint = { width: 2*scale, height: 0*scale, joint_offset_y: 0*scale, joint_offset_x: 0.5*scale } 
+  w._link1 = { width: 3*scale, height: 17.27*scale }
+  w._joint1 = { width: 4*scale, height: 0.00*scale, joint_offset_y: 0*scale, joint_offset_x: 0.5*scale }
+  w._link2 = { width: 3*scale, height: 11.50*scale }
+  w._joint2 = { width: 4*scale, height: 0.00*scale, joint_offset_y: 0*scale }
+  w._link3 = { width: 3*scale, height: 9.049*scale }
+  w._joint3 = { width: 2.5*scale, height: 3.00*scale, joint_offset_y: 0.5*scale }
+  w._joint4 = { width: 3.5*scale, height: 3*scale, joint_offset_y: 0.5*scale }
+  w._hand = { width: 4*scale, height: 3*scale }
+  w._gripper = { width: 1*scale, height: 4.3*scale }
+
+  w.base = R.rect(400,430,w._base.width,w._base.height).attr({fill: "yellow"})
+  w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/1) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
   w.base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
   w.link1 = R.rect( (w.base_joint.attrs.x + w.base_joint.attrs.width/2) - w._link1.width/2, (w.base_joint.attrs.y + w._base_joint.joint_offset_y*2) - w._link1.height, w._link1.width, w._link1.height).attr({ fill: "yellow" })
   w.joint1 = R.rect( (w.link1.attrs.x + w._link1.width/2) - w._joint1.width/2, w.link1.attrs.y, w._joint1.width, w._joint1.height).attr({ fill: "black"})
@@ -85,6 +90,33 @@ $ ->
   w.joint4 = R.rect( (w.joint3.attrs.x + w._joint3.width/2) - w._joint4.width/2, w.joint3.attrs.y - w._joint4.height, w._joint4.width, w._joint4.height).attr({ fill: "black"})
   w.hand = R.rect( (w.joint4.attrs.x + w._joint4.width/2) - w._hand.width/2, w.joint4.attrs.y - w._hand.height, w._hand.width, w._hand.height).attr({ fill: "gray" })
   w.gripper = R.rect( (w.hand.attrs.x + w._hand.width/2) - w._gripper.width/2, w.hand.attrs.y - w._gripper.height, w._gripper.width, w._gripper.height).attr({ fill: "gray" })
+
+  # detect click position on canvas
+  $("#arm-portrait").on('click', (e) ->
+    base_joint_x =  window.base_joint.attrs.x + window._base_joint.width/2
+    base_joint_y = window.base_joint.attrs.y + window._base_joint.joint_offset_y
+    x = (e.pageX - $(this).offset().left) - 430
+    y = 430 - (e.pageY - $(this).offset().top)# + $("section#main").scrollTop()
+    console.log x + "," + y  
+    _phi = phi y, x
+    console.log
+    data = {'x': y, 'y': x, 'phi': _phi}
+    $.get('/coords_to_joint_angles.json', data, set_ghost_angles, 'json')
+  )
+
+  set_ghost_angles = (data) ->
+    console.log data
+    $(".slider#joint-slider0").slider('value',data[0])
+    $(".slider#joint-slider1").slider('value',data[1])
+    $(".slider#joint-slider2").slider('value',data[2])
+    for i in [0..2]
+      rotate_plan_joint(i,data[i])
+      
+  phi = (x,y) -> 
+    angle = Math.atan(y/x)*180/Math.PI
+    if x < 0
+      angle = angle + 180
+    angle
  
   # clone the arm for pose planning
   w.plan_base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 4, 4).attr({ fill: "red" })

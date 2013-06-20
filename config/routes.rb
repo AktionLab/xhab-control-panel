@@ -58,6 +58,6 @@ XhabNew::Application.routes.draw do
   
   root :to => "dashboard#index"
   resources :dashboard, :only => 'index'
+  get '/coords_to_joint_angles', :to => 'arm#coords_to_joint_angles'   
   get '/:id', :to => 'pages#show', :as => :pages
-     
 end

@@ -25,22 +25,28 @@
           <span id="joint2-value" type="text" style="width:37px;" disabled="true">0</span>
           <div id="joint-slider2" class="slider joint-slider" data-joint="2"></div>
         </div>
+        <div class="pull-left joint-slider-container">
+          Wrist<br />
+          <span id="joint3-value" type="text" style="width:37px;" disabled="true">0</span>
+          <div id="joint-slider3" class="slider joint-slider" data-joint="3"></div>
+        </div>
       </div>
-      <div class="pull-left">
-        <div id="arm-portrait" class="pull-left"></div>
+      <div class="pull-left" style="width: 500px; height: 500px;">
+        <div id="arm-portrait"></div>
+        <!--<div id="arm-portrait-overlay" style="width: 800px; height: 500px; position:absolute; top: 0; left:0; z-index: 9999"></div> -->
       </div>
     </div>
     <div class="span3">
-      <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="overflow:hidden;width:400px;height:640px;-webkit-transform: rotate(-90deg)">
+      <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="display: none;overflow:hidden;width:400px;height:640px;-webkit-transform: rotate(-90deg)">
         <video autoplay>
-          <source type="video/flash" src="http://localhost:8090/test1.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
+          <source type="video/flash" src="http://128.217.243.52:8090/test1.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
         </video>
       </div>
     </div>
     <div class="span3">
       <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="overflow:hidden;width:400px;height:640px;-webkit-transform: rotate(-90deg);">
         <video autoplay>
-          <source type="video/flash" src="http://localhost:8090/test3.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
+          <source type="video/flash" src="http://http://128.217.243.52/:8090/test3.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
         </video>
       </div>
     </div>

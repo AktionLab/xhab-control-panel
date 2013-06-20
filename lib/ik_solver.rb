@@ -23,7 +23,15 @@ class IKSolver
     vars[:l1] = 0.1727 #link one length meters
     vars[:l2] = 0.1150 #link two length meters
     vars[:l3] = 0.2235 #link three length meters
+    
+    scale = 0.0014319
+    
+    x = x*scale
+    y = y*scale
 
+    puts x
+    puts y
+    
     vars[:alpha] = x - vars[:l3]*Math.cos(phi*Math::PI/180)
     vars[:beta]  = y - vars[:l3]*Math.sin(phi*Math::PI/180)
     vars[:r]     = Math.sqrt(vars[:alpha]**2 + vars[:beta]**2)
@@ -58,5 +66,6 @@ class IKSolver
 
     vars[:jointAngles]
     puts vars.inspect
+    vars[:jointAngles]
   end
 end
