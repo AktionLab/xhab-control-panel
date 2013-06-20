@@ -121,7 +121,8 @@ $ ->
   $("#linear_actuator_water_up").click ->
     message = new window.ros.Message {
       pin_one      : true,
-      pin_two      : false,  
+      pin_two      : false,
+      mode         : 2000,
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
@@ -134,7 +135,8 @@ $ ->
   $("#linear_actuator_water_down").click ->
     message = new window.ros.Message {
       pin_one   : false,
-      pin_two   : true,  
+      pin_two   : true,
+      mode      : 2000,
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
