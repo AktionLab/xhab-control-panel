@@ -10,10 +10,10 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require eventemitter2
 //= require jquery172
 //= require jqueryui
 //= require highcharts
-// require eventemitter2
 //= require ros
 //= require mjpegcanvas
 //= require raphael
