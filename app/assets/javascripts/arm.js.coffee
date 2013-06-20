@@ -5,10 +5,10 @@ elbow2_rotate_angle = 0
 @arm_execute_motion = ->
   console.log 'sending angles'
   message = new window.ros.Message {
-    shoulder1_angle : shoulder_rotate_angle + 114,
-    shoulder2_angle : shoulder_rotate_angle + 112.9,
-    elbow1_angle    : elbow1_rotate_angle + 134.6,
-    elbow2_angle    : elbow2_rotate_angle + 102.9,
+    shoulder1_angle : shoulder_rotate_angle + 112,
+    shoulder2_angle : shoulder_rotate_angle + 110.9,
+    elbow1_angle    : elbow1_rotate_angle + 177.23,
+    elbow2_angle    : elbow2_rotate_angle + 106.5,
     wrist_angle     : 1,
     step_number     : 1,
   }
@@ -49,8 +49,6 @@ elbow2_rotate_angle = 0
   window.plan_elbow2.forEach( (el) ->
     el.attr({ transform: "r" + shoulder_rotate_angle + "," + window.plan_base_joint_axis.attrs.cx + "," + window.plan_base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + window.plan_joint1_axis.attrs.cx + "," + window.plan_joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + window.plan_joint2_axis.attrs.cx + "," + window.plan_joint2_axis.attrs.cy})
   )
-
-  arm_execute_motion()
   
 $ -> 
   $("#arm-execute-motion").click ->

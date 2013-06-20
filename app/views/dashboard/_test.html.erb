@@ -16,7 +16,7 @@ table.data tr td{
   <div class="black-box">
     <div style="float:left;width:300px;">
       <div class="padded">
-      <% 5.times do |i| %>
+      <% 6.times do |i| %>
         <div class="led-array-container">
           <b>Array <%= i+1 %> </b>
           <span class="pull-right value"></span><br />
@@ -33,8 +33,10 @@ table.data tr td{
           <% end %>
         </div>
       <% end %>
-        <button id="linear_actuator_down" class="btn btn-small">Linear Actuator EXTEND</button>
-        <button id="linear_actuator_up" class="btn btn-small">Linear Actuator RETRACT</button>
+        <button id="linear_actuator_down" class="btn btn-small">Moisture Probe INSERT</button>
+        <button id="linear_actuator_up" class="btn btn-small">Moisture Probe RETRACT</button>
+        <button id="linear_actuator_water_up" class="btn btn-small">Watering Station RAISE</button>
+        <button id="linear_actuator_water_down" class="btn btn-small">Watering Station LOWER</button>
         <button id="pump_on" class="btn btn-small">Pump ON</button>
         <button id="pump_off" class="btn btn-small">Pump OFF</button>
         <button id="upstream_valve_open" class="btn btn-small">Upstream Valve OPEN</button>
@@ -82,16 +84,43 @@ table.data tr td{
               <span id="downstream-pressure"></span>
             </td>
           </tr>
+          <tr>
+            <td>
+             <strong>Moisture: </strong>
+            </td>
+            <td>
+              <span id="moisture-level"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Fluid Level Top: </strong>
+            </td>
+            <td>
+              <span id="fluid-level-top"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Fluid Level Mid: </strong>
+            </td>
+            <td>
+              <span id="fluid-level-mid"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+             <strong>Fluid Level Bottom: </strong>
+            </td>
+            <td>
+              <span id="fluid-level-bot"></span>
+            </td>
+          </tr>
         </table>
       </div>
     </div>
     <div style="float:left: width: 50%;">
-      <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="0.75">
-        <video autoplay>
-          <source type="video/flash" src="http://23.23.182.122:8090/test.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
-        </video>
-      </div>
-    </div>
+          </div>
     <div class="clear"></div>
   </div>
 </div>
