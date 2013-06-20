@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require eventemitter2
+//= require xypos
 //= require jquery172
 //= require jqueryui
 //= require highcharts

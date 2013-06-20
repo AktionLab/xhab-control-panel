@@ -10,7 +10,6 @@
         <button id="arm-close-gripper" class="btn btn-primary pull-left">CLOSE Gripper</button>
         <button id="arm-execute-motion" class="btn btn-primary pull-left">Execute Motion</button>
         <div class="clear"></div>
-        <!--
         <div class="pull-left joint-slider-container">
           Sh.<br />
           <span id="joint0-value" type="text" style="width:37px;" disabled="true">0</span>
@@ -26,10 +25,15 @@
           <span id="joint2-value" type="text" style="width:37px;" disabled="true">0</span>
           <div id="joint-slider2" class="slider joint-slider" data-joint="2"></div>
         </div>
-        -->
+        <div class="pull-left joint-slider-container">
+          Wrist<br />
+          <span id="joint3-value" type="text" style="width:37px;" disabled="true">0</span>
+          <div id="joint-slider3" class="slider joint-slider" data-joint="3"></div>
+        </div>
       </div>
-      <div class="pull-left">
-        <div id="arm-portrait" class="pull-left"></div>
+      <div class="pull-left" style="width: 500px; height: 500px;">
+        <div id="arm-portrait"></div>
+        <!--<div id="arm-portrait-overlay" style="width: 800px; height: 500px; position:absolute; top: 0; left:0; z-index: 9999"></div> -->
       </div>
     </div>
     <div class="span3">

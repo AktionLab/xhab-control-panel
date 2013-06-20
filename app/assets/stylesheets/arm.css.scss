@@ -7,11 +7,20 @@
 .arm-joint-control .ui-slider-vertical {
   height: 300px;
 }
+div.arm-joint-control {
+  position: absolute;
+  z-index:99999;
+}
 div#arm-portrait {
-  width: 400px;
+  width: 600px;
   height: 500px;
+  z-index: 999;
+  background: #999;
 }
 .ui-motion .flowplayer object {
   width: 400px;
   height: 640px;
+}
+#main {
+  position: relative;
 }

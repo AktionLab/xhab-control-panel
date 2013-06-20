@@ -120,8 +120,8 @@ log = (message) ->
 $ ->
   $("#linear_actuator_water_up").click ->
     message = new window.ros.Message {
-      pin_one : true,
-      pin_two : false,  
+      pin_one      : true,
+      pin_two      : false,  
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
@@ -133,8 +133,8 @@ $ ->
 $ ->
   $("#linear_actuator_water_down").click ->
     message = new window.ros.Message {
-      pin_one : false,
-      pin_two : true,  
+      pin_one   : false,
+      pin_two   : true,  
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
@@ -148,7 +148,7 @@ $ ->
   $("#linear_actuator_up").click ->
     message = new window.ros.Message {
       direction : 0,
-      mode      : 1,  
+      mode      : 3000,  
     }
     log window.control_linear_actuator_topic 
     window.control_linear_actuator_topic.publish message
@@ -161,7 +161,7 @@ $ ->
   $("#linear_actuator_down").click ->
     message = new window.ros.Message {
       direction : 1,
-      mode      : 1,  
+      mode      : 3000,  
     }
     log window.control_linear_actuator_topic 
     window.control_linear_actuator_topic.publish message
@@ -373,6 +373,19 @@ $ ->
       joint_index = $(event.target).data("joint")
       rotate_plan_joint(joint_index,ui.value)
       $("span#joint#{joint_index}-value").html(ui.value)
+  }
+
+  $(".slider#joint-slider3").slider {
+    value: 0,
+    orientation: "vertical",
+    range: "min",
+    min: -180,
+    max: 180,
+    step: 1,
+    slide: (event, ui) ->
+      joint_index = $(event.target).data("joint")
+      $("span#joint#{joint_index}-value").html(ui.value)
+      window.wrist_rotate_angle = ui.value  
   }
 
   $(".slider.led-slider").slider {
