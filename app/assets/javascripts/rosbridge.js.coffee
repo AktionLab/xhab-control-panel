@@ -827,7 +827,7 @@ init_publish_to_control_linear_actuator_water = ->
   console.log 'init linear actuator water'
   window.control_linear_actuator_water_topic = new window.ros.Topic {
     name        : window.topics.control_linear_actuator_water,
-    messageType : "xhab/DcMotor",
+    messageType : "xhab/LinWater",
   }
 
 #-------------------------------------------
