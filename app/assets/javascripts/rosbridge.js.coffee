@@ -97,6 +97,8 @@ init_ui = ->
 
 init_view_switching = ->
   $(".main-nav li a").on 'click', (e) ->
+    $(e.target).parents("ul").find(".active").removeClass("active")
+    $(@).parent().addClass("active")
     context = $(e.currentTarget).data('ui-context')
     $(".ui-context").hide()
     $(".ui-context.ui-" + context).show(0,redraw_charts)
