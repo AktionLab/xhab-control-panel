@@ -10,7 +10,7 @@ window.wrist_rotate_angle = 0
     shoulder2_angle : shoulder_rotate_angle + 110.9,
     elbow1_angle    : elbow1_rotate_angle + 177.23,
     elbow2_angle    : elbow2_rotate_angle + 106.5,
-    wrist_angle     : 0, #window.wrist_rotate_angle,
+    wrist_angle     : 0,
     step_number     : 1,
   }
   console.log message
@@ -58,7 +58,7 @@ $ ->
 $ ->
   console.log 'arm'
   scale = 7
-  arm_base_x = 400
+  arm_base_x = 250
   arm_base_y = 430
   current_ee_x = 470
   w = window
@@ -76,7 +76,7 @@ $ ->
   w._hand = { width: 4*scale, height: 3*scale }
   w._gripper = { width: 1*scale, height: 4.3*scale }
 
-  w.base = R.rect(400,430,w._base.width,w._base.height).attr({fill: "yellow"})
+  w.base = R.rect(250,430,w._base.width,w._base.height).attr({fill: "yellow"})
   w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/1) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
   w.base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
   w.link1 = R.rect( (w.base_joint.attrs.x + w.base_joint.attrs.width/2) - w._link1.width/2, (w.base_joint.attrs.y + w._base_joint.joint_offset_y*2) - w._link1.height, w._link1.width, w._link1.height).attr({ fill: "yellow" })
@@ -95,7 +95,7 @@ $ ->
   $("#arm-portrait").on('click', (e) ->
     base_joint_x =  window.base_joint.attrs.x + window._base_joint.width/2
     base_joint_y = window.base_joint.attrs.y + window._base_joint.joint_offset_y
-    x = (e.pageX - $(this).offset().left) - 430
+    x = (e.pageX - $(this).offset().left) - 250
     y = 430 - (e.pageY - $(this).offset().top)# + $("section#main").scrollTop()
     console.log x + "," + y  
     _phi = phi y, x

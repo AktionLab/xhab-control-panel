@@ -3,7 +3,7 @@
 #-------------------------------------------
 
 # Rosbridge 
-window.ros_master_ip = "128.217.243.52"
+window.ros_master_ip = "10.1.57.143"
 window.connection = null
 window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
