@@ -57,12 +57,12 @@ $ ->
 
 $ ->
   console.log 'arm'
-  scale = 7
-  arm_base_x = 400
-  arm_base_y = 430
+  scale = 3.5
+  arm_base_x = 200
+  arm_base_y = 230
   current_ee_x = 470
   w = window
-  R = Raphael("arm-portrait", 600, 500)
+  R = Raphael("arm-portrait", 380, 240)
 
   w._base = { width: 4*scale, height: 0*scale }
   w._base_joint = { width: 2*scale, height: 0*scale, joint_offset_y: 0*scale, joint_offset_x: 0.5*scale } 
@@ -76,7 +76,7 @@ $ ->
   w._hand = { width: 4*scale, height: 3*scale }
   w._gripper = { width: 1*scale, height: 4.3*scale }
 
-  w.base = R.rect(400,430,w._base.width,w._base.height).attr({fill: "yellow"})
+  w.base = R.rect(180,200,w._base.width,w._base.height).attr({fill: "yellow"})
   w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/1) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
   w.base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
   w.link1 = R.rect( (w.base_joint.attrs.x + w.base_joint.attrs.width/2) - w._link1.width/2, (w.base_joint.attrs.y + w._base_joint.joint_offset_y*2) - w._link1.height, w._link1.width, w._link1.height).attr({ fill: "yellow" })
@@ -233,4 +233,7 @@ $ ->
     elbow2.forEach( (el) ->
       el.animate({ transform: "r90," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r0," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy + "r0," + joint2_axis.attrs.cx + "," + joint2_axis.attrs.cy}, 300)
     )
-     
+
+  # work envelope
+  R.circle(195,200,179).attr({fill: "blue", opacity: 0.1})
+  R.circle(195,200,179).attr({stroke: "#3333ff", "stroke-width": 2})

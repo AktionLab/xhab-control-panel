@@ -11,17 +11,9 @@
 </head>
 <body>
 
-<%= render :partial => "dashboard/modal" %>
-<%= render :partial => "dashboard/primary_nav" %>
-
 <section id="main">
-  <%= render :partial => "dashboard/top_nav" %>
-  <div class="container-fluid">
     <%= yield %>
-    <%= render :partial => "shared/footer" %>
-  </div>
 </section>
-
 
 </body>
 </html>

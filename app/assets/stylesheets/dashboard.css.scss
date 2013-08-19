@@ -1,3 +1,13 @@
+#main {
+  font-size: 10px;
+  .tab-header {
+    font-size: 12px;
+    padding-left: 8px;
+    height: 26px;
+    line-height: 26px;
+  }
+}
+
 div.clear {
   clear: both;
 }
@@ -59,4 +69,72 @@ table.led-levels td {
 span.sensor-value {
   font-size: 16px;
   font-weight: bold;
+}
+
+#main .row-fluid {
+  .span1 {
+    width: 8.3%;
+  }
+  .span3 {
+    width: 26.07692%;
+  }
+  .span5 {
+    width: 41.1%;
+    .span8 {
+      width:63.4%;
+    }
+    .span4 {
+      width: 35.2%;
+    }
+  } 
+  .span6 {  
+    width: 52.71795%;
+  }
+  .span8 {
+    width: 67.81197%;
+  }
+}
+#main .padded {
+  padding: 4px;
+}
+.black-box {
+  margin-bottom: 7px;
+}
+#main button {
+  font-size: 10px;
+}
+.row-fluid [class*="span"] {
+  margin-left: 0.5641%;
+}
+#main a.watering-control {
+  width: 105px;
+  text-align:left;
+  display:inline-block;
+  margin-bottom:4px;
+  font-size: 10px;
+  margin-right:4px;
+  margin-left:4px;
+  i {
+    font-size:16px;
+    vertical-align:middle;
+  }
+}
+#main .inner-well {
+  margin-top: 3px;
+  padding: 4px;
+}
+div.log {
+  span.log-date {
+    font-style: italic;
+    font-size: 9px;
+    color: #ddd;
+    line-height: 12px;
+    display: block;
+  }
+  p.log-entry {
+    line-height: 12px;
+    font-size: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+  }
 }

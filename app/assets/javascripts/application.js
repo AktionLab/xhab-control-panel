@@ -40,4 +40,5 @@
 //= require jwplayer
 //= require jwplayer.html5
 //= require flowplayer.js
+//= require charts
 //= require rosbridge

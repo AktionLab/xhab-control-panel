@@ -42,22 +42,23 @@ window.charts = {}
 
 $ ->
   init_view_switching()
-  init_rosbridge()
+  #init_rosbridge()
   #init_fluid_line_pressure_upstream_chart()
   #init_fluid_line_pressure_downstream_chart()
-  #init_fluid_ph_chart()
+  init_fluid_ph_chart()
   init_fluid_temperature_chart()
-  #init_fluid_tds_chart()
+  init_fluid_tds_chart()
+  init_moisture_chart()
   #init_arm_camera()
-  init_publish_to_control_leds()
-  init_publish_to_control_dc_motor()
-  init_publish_to_control_stepper_motor()
-  init_publish_to_control_pump_state()
-  init_publish_to_control_linear_actuator()
-  init_publish_to_control_linear_actuator_water()
-  init_publish_to_joint_angles()
-  init_publish_to_end_effector()
-  init_subscribe_to_sensor_data()
+  #init_publish_to_control_leds()
+  #init_publish_to_control_dc_motor()
+  #init_publish_to_control_stepper_motor()
+  #init_publish_to_control_pump_state()
+  #init_publish_to_control_linear_actuator()
+  #init_publish_to_control_linear_actuator_water()
+  #init_publish_to_joint_angles()
+  #init_publish_to_end_effector()
+  #init_subscribe_to_sensor_data()
 
 init_jwplayer = ->
   jwplayer("main-camera").setup
@@ -93,7 +94,7 @@ init_mjpegcanvas = ->
 #-------------------------------------------
 
 init_ui = ->
-  init_view_switiching()
+  init_view_switching()
 
 init_view_switching = ->
   $(".main-nav li a").on 'click', (e) ->
@@ -101,7 +102,8 @@ init_view_switching = ->
     $(".ui-context").hide()
     $(".ui-context.ui-" + context).show(0,redraw_charts)
     return false
-  $("[data-ui-context=test]").click()
+  $(".ui-context.ui-dashboard").show()
+  #$("[data-ui-context=dashboard]").click()
     
 
 #-------------------------------------------
@@ -440,14 +442,14 @@ $ ->
   sensor_arm_width = $("#soil-sensor-arm").parent().width
   sensor_arm_height = $("#soil-sensor-arm").parent().height
   
-  window.sensor_gui = Raphael("soil-sensor-arm", 200, 250)
+  window.sensor_gui = Raphael("soil-sensor-arm", 100, 150)
 
   window.sensor_gui.setStart()
 
-  probe = window.sensor_gui.rect(0,5,100,6)
+  probe = window.sensor_gui.rect(0,5,60,5)
   probe.attr "fill", "#4444ff"
  
-  arm = window.sensor_gui.rect(10,0,10,150)
+  arm = window.sensor_gui.rect(10,0,10,90)
   arm.attr "fill", "#555"
 
   window.sensor_arm = window.sensor_gui.setFinish()
@@ -517,97 +519,7 @@ redraw_charts = ->
   $.each window.charts, (i,el) ->
     el.setSize($(el.container).closest(".chart").width(), $(el.container).closest(".chart").height())
 
-init_fluid_ph_chart = ->
-  window.charts.ph = new Highcharts.Chart {
-    chart: {
-      renderTo: 'fluid-chart-ph',
-      defaultSeriesType: 'area',
-    },
-    legend: false,
-    title: {
-      text: 'pH'
-    },
-    xAxis: {
-      type: 'datetime',
-      minRange: 500,
-      tickInterval: 5000,
-    },
-    yAxis: {
-      min: 4.5,
-      max: 8.5,
-      tickInterval: 0.5,
-      minPadding: 0.1,
-      title: {
-        text: "pH",
-      }
-    },
-    series: [{
-      name: "pH",
-      data: [],
-    }]
-  }
 
-init_fluid_tds_chart = ->
-  window.charts.tds = new Highcharts.Chart {
-    chart: {
-      renderTo: 'fluid-chart-tds',
-      defaultSeriesType: 'area',
-    },
-    legend: false,
-    title: {
-      text: 'Total Dissolved Solids'
-    },
-    xAxis: {
-      type: 'datetime',
-      minRange: 500,
-      tickInterval: 5000,
-    },
-    yAxis: {
-      min: 0,
-      max: 2000,
-      tickInterval: 500,
-      minPadding: 0.1,
-      title: {
-        text: "ppm",
-      }
-    },
-    series: [{
-      name: "TDS",
-      data: [],
-    }]
-  }
-
-
-init_fluid_temperature_chart = ->
-  window.charts.temperature = new Highcharts.Chart {
-    chart: {
-      renderTo: 'fluid-chart-temp',
-      defaultSeriesType: 'area',
-    },
-    legend: false,
-    title: {
-      text: 'Reservoir Temperature (°C)'
-    },
-    xAxis: {
-      type: 'datetime',
-      minRange: 10,
-      tickInterval: 10000,
-    },
-    yAxis: {
-      min: -1.5,
-      max: 1.5,
-      tickInterval: 0.5,
-      minPadding: 0.1,
-      title: {
-        text: "Temp (°C)",
-      }
-    },
-    series: [{
-      name: "Temperature",
-      data: [],
-    }]
-  }
-  subscribe_to_temperature()
 
 init_fluid_line_pressure_upstream_chart = ->
   window.charts.line_pressure_upstream = new Highcharts.Chart {
