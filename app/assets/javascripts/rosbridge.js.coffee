@@ -465,12 +465,12 @@ $ ->
 # Lights
 #-------------------------------------------
 $ ->
-  light_paper_width = 318
-  light_paper_height = 318
+  light_paper_width = 488
+  light_paper_height = 488
   center_x_pos = light_paper_width/2
   center_y_pos = light_paper_width/2
-  led_radius = 40
-  pot_radius = 30
+  led_radius = 116
+  pot_radius = 50
   base_plate_radius = light_paper_width/2
   PI = Math.PI
 
@@ -486,14 +486,14 @@ $ ->
   window.pots = window.eps_gui.set()
   for i in [0..4]
     angle = (2*PI/5)*i - 0.5*PI
-    x_pos = Math.cos(angle)*0.4*(light_paper_width - 2*led_radius) + 0.5*light_paper_width
-    y_pos = Math.sin(angle)*0.4*(light_paper_height - 2*led_radius) + 0.5*light_paper_height
-    x_pos_label = Math.cos(angle)*0.5*(light_paper_width - 2*led_radius) + 0.5*light_paper_width
-    y_pos_label = Math.sin(angle)*0.5*(light_paper_height - 2*led_radius) + 0.5*light_paper_height
-    circle = window.eps_gui.circle x_pos, y_pos, led_radius
-    circle.attr("stroke", "#fff")
-    circle.attr("fill-opacity", 0.75)
-    window.lights.push(circle)
+    x_pos = Math.cos(angle)*0.4*(light_paper_width - 2*pot_radius) + 0.5*light_paper_width
+    y_pos = Math.sin(angle)*0.4*(light_paper_height - 2*pot_radius) + 0.5*light_paper_height
+    x_pos_label = Math.cos(angle)*0.5*(light_paper_width - 2*pot_radius) + 0.5*light_paper_width
+    y_pos_label = Math.sin(angle)*0.5*(light_paper_height - 2*pot_radius) + 0.5*light_paper_height
+    rect = window.eps_gui.rect x_pos - led_radius/2 , y_pos - led_radius/2, led_radius, led_radius
+    rect.attr("stroke", "#fff")
+    rect.attr("fill-opacity", 0.75)
+    window.lights.push(rect)
     
     pot = window.eps_gui.circle x_pos, y_pos, pot_radius
     pot.attr("stroke", "#000")
