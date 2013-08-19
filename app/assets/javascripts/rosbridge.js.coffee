@@ -3,7 +3,7 @@
 #-------------------------------------------
 
 # Rosbridge 
-window.ros_master_ip = "128.217.243.52"
+window.ros_master_ip = "10.1.57.143"
 window.connection = null
 window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
@@ -20,6 +20,7 @@ window.topics = {
   data_temperature:        "/data/fluid/temperature",
   control_joint_angles:    "/control/arm/joint_angles",
   control_end_effector:    "/control/arm/end_effector",
+  data_arm_end_effector_status: "/data/arm/end_effector_status",
   data_joint_angles:       "/data/arm/joint_angles",
   control_leds:            "/control/led",
   control_dc_motor:        "/control/dc_motor",
@@ -181,7 +182,7 @@ $ ->
       dir = 1
     message = new window.ros.Message {
       direction : dir,
-      mode      : parseInt(Math.abs(rotate_amount)),  
+      mode      : parseFloat(Math.abs(rotate_amount)),  
     }
     log window.control_dc_motor_topic 
     window.control_dc_motor_topic.publish message
@@ -411,7 +412,7 @@ $ ->
       led_level = ui.value / 3
       if window.lights_glow[led_index] != undefined
         window.lights_glow[led_index].remove()
-      if led_level > 0
+      if led_level > 0 && window.lights_glow[led_index] != undefined
         window.lights_glow[led_index] = window.lights[led_index].glow {
           color: "#fff",
           width: led_level*35,
@@ -690,6 +691,13 @@ init_publish_to_end_effector = ->
   console.log 'creating topic'
   window.end_effector_topic = new window.ros.Topic {
     name        : window.topics.control_end_effector,
+    messageType : "std_msgs/Int32"
+  }
+
+init_publish_to_end_effector_status = ->
+  console.log 'creating topic'
+  window.data_arm_end_effector_status_topic = new window.ros.Topic {
+    name        : window.topics.data_arm_end_effector_status,
     messageType : "std_msgs/Int32"
   }
 

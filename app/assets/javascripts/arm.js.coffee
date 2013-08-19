@@ -10,7 +10,7 @@ window.wrist_rotate_angle = 0
     shoulder2_angle : shoulder_rotate_angle + 110.9,
     elbow1_angle    : elbow1_rotate_angle + 177.23,
     elbow2_angle    : elbow2_rotate_angle + 106.5,
-    wrist_angle     : 0, #window.wrist_rotate_angle,
+    wrist_angle     : 0,
     step_number     : 1,
   }
   console.log message
@@ -95,7 +95,7 @@ $ ->
   $("#arm-portrait").on('click', (e) ->
     base_joint_x =  window.base_joint.attrs.x + window._base_joint.width/2
     base_joint_y = window.base_joint.attrs.y + window._base_joint.joint_offset_y
-    x = (e.pageX - $(this).offset().left) - 430
+    x = (e.pageX - $(this).offset().left) - 250
     y = 430 - (e.pageY - $(this).offset().top)# + $("section#main").scrollTop()
     console.log x + "," + y  
     _phi = phi y, x
