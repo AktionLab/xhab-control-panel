@@ -57,12 +57,16 @@ $ ->
 
 $ ->
   console.log 'arm'
-  scale = 3.5
-  arm_base_x = 200
-  arm_base_y = 230
+  scale = 5.5
   current_ee_x = 470
   w = window
-  R = Raphael("arm-portrait", 380, 240)
+  canvas_width = $("#arm-canvas").width()
+  console.log canvas_width
+  canvas_height = $("#arm-cam-container").height()
+  arm_base_x = canvas_width / 2
+  arm_base_y = canvas_height - 10
+
+  R = Raphael("arm-portrait", canvas_width, canvas_height)
 
   w._base = { width: 4*scale, height: 0*scale }
   w._base_joint = { width: 2*scale, height: 0*scale, joint_offset_y: 0*scale, joint_offset_x: 0.5*scale } 
@@ -76,7 +80,7 @@ $ ->
   w._hand = { width: 4*scale, height: 3*scale }
   w._gripper = { width: 1*scale, height: 4.3*scale }
 
-  w.base = R.rect(180,200,w._base.width,w._base.height).attr({fill: "yellow"})
+  w.base = R.rect(arm_base_x,arm_base_y,w._base.width,w._base.height).attr({fill: "yellow"})
   w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/1) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
   w.base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
   w.link1 = R.rect( (w.base_joint.attrs.x + w.base_joint.attrs.width/2) - w._link1.width/2, (w.base_joint.attrs.y + w._base_joint.joint_offset_y*2) - w._link1.height, w._link1.width, w._link1.height).attr({ fill: "yellow" })
