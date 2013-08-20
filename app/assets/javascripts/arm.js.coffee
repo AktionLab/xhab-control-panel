@@ -16,17 +16,17 @@ window.wrist_rotate_angle = 0
   console.log message
   window.joint_angles_topic.publish message
 
-  #window.shoulder.forEach( (el) ->
-    #el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy}, 3000)
-  #)
+  window.shoulder.forEach( (el) ->
+    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy}, 3000)
+  )
 
-  #window.elbow1.forEach( (el) ->
-    #el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy}, 3000)
-  #)
+  window.elbow1.forEach( (el) ->
+    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy}, 3000)
+  )
 
-  #window.elbow2.forEach( (el) ->
-    #el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + joint2_axis.attrs.cx + "," + joint2_axis.attrs.cy}, 3000)
-  #) 
+  window.elbow2.forEach( (el) ->
+    el.animate({ transform: "r" + shoulder_rotate_angle + "," + base_joint_axis.attrs.cx + "," + base_joint_axis.attrs.cy + "r" + elbow1_rotate_angle + "," + joint1_axis.attrs.cx + "," + joint1_axis.attrs.cy + "r" + elbow2_rotate_angle + "," + joint2_axis.attrs.cx + "," + joint2_axis.attrs.cy}, 3000)
+  ) 
    
 @rotate_shoulder = (el, i) ->
   el.attr({transform: "r" + shoulder_rotate_angle + "," + (window.base_joint.attrs.x + window._base_joint.joint_offset_x) + "," + (window.base_joint.attrs.y + window._base_joint.joint_offset_y)})
@@ -60,7 +60,7 @@ $ ->
   scale = 5.5
   current_ee_x = 470
   w = window
-  canvas_width = $("#arm-canvas").width()
+  canvas_width = 600
   console.log canvas_width
   canvas_height = $("#arm-cam-container").height()
   arm_base_x = canvas_width / 2
@@ -80,7 +80,7 @@ $ ->
   w._hand = { width: 4*scale, height: 3*scale }
   w._gripper = { width: 1*scale, height: 4.3*scale }
 
-  w.base = R.rect(arm_base_x,arm_base_y,w._base.width,w._base.height).attr({fill: "yellow"})
+  w.base = R.rect(280,arm_base_y,w._base.width,w._base.height).attr({fill: "yellow"})
   w.base_joint = R.rect( (w.base.attrs.x + w.base.attrs.width/1) - w._base_joint.width/2, w.base.attrs.y - w._base_joint.height, w._base_joint.width, w._base_joint.height).attr({ fill: "black" })
   w.base_joint_axis = R.ellipse( w.base_joint.attrs.x + w._base_joint.width/2, w.base_joint.attrs.y + w._base_joint.joint_offset_y, 0, 0).attr({ fill: "red" })
   w.link1 = R.rect( (w.base_joint.attrs.x + w.base_joint.attrs.width/2) - w._link1.width/2, (w.base_joint.attrs.y + w._base_joint.joint_offset_y*2) - w._link1.height, w._link1.width, w._link1.height).attr({ fill: "yellow" })
@@ -239,5 +239,5 @@ $ ->
     )
 
   # work envelope
-  R.circle(195,200,179).attr({fill: "blue", opacity: 0.1})
-  R.circle(195,200,179).attr({stroke: "#3333ff", "stroke-width": 2})
+  R.circle(300,326,268).attr({fill: "blue", opacity: 0.1})
+  R.circle(300,326,268).attr({stroke: "#3333ff", "stroke-width": 2})

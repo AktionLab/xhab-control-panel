@@ -29,7 +29,8 @@ h4 {
 }
 
 .led-array-container {
-  padding-bottom: 8px;
+  width: 200px;
+  padding-bottom: 0px;
 }
 
 table.led-levels td {
@@ -38,7 +39,6 @@ table.led-levels td {
 
 .led-slider.ui-slider,
 .joint-slider.ui-slider {
-  margin: 6px;
   box-sizing: border-box;
   background: #000;
   .ui-slider-range {
@@ -102,6 +102,13 @@ span.sensor-value {
 }
 #main button {
   font-size: 10px;
+  .disabled {
+    background:#000;
+  }
+  &.btn-green {
+    background: #00ff00;
+    color: #000;
+  }
 }
 .row-fluid [class*="span"] {
   margin-left: 0.5641%;
@@ -137,4 +144,21 @@ div.log {
     padding-bottom: 0px;
     margin-bottom: 0px;
   }
+}
+#raphael-lights-overhead {
+  svg {
+    margin-left:55px;
+  }
+}
+
+div#whiteout {
+  display: none;
+  position:fixed;
+  top:0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.6;
 }

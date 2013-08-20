@@ -31,6 +31,8 @@ window.topics = {
   data_sensors:            "/data/sensors",
   data_ph:                 "/data/ph_sensor",
   data_ec:                 "/data/ec_sensor",
+  data_state:              "/data/arduino_states",
+  data_callback:           "/data/callback",
 }
 
 # Global refs to Highcharts
@@ -43,7 +45,7 @@ window.charts = {}
 
 $ ->
   init_view_switching()
-  #init_rosbridge()
+  init_rosbridge()
   #init_fluid_line_pressure_upstream_chart()
   #init_fluid_line_pressure_downstream_chart()
   init_fluid_ph_chart()
@@ -51,15 +53,17 @@ $ ->
   init_fluid_tds_chart()
   init_moisture_chart()
   #init_arm_camera()
-  #init_publish_to_control_leds()
-  #init_publish_to_control_dc_motor()
-  #init_publish_to_control_stepper_motor()
-  #init_publish_to_control_pump_state()
-  #init_publish_to_control_linear_actuator()
-  #init_publish_to_control_linear_actuator_water()
-  #init_publish_to_joint_angles()
+  init_publish_to_control_leds()
+  init_publish_to_control_dc_motor()
+  init_publish_to_control_stepper_motor()
+  init_publish_to_control_pump_state()
+  init_publish_to_control_linear_actuator()
+  init_publish_to_control_linear_actuator_water()
+  init_publish_to_joint_angles()
   #init_publish_to_end_effector()
   #init_subscribe_to_sensor_data()
+  init_subscribe_to_state()
+  init_subscribe_to_callback()
 
 init_jwplayer = ->
   jwplayer("main-camera").setup
@@ -115,15 +119,31 @@ log = (message) ->
   if console != undefined
     console.log message
 
+@disable_buttons = (buttons) ->
+  $.each buttons, (i,v) ->
+    $("##{v}").attr('disabled','disabled')
+
+@enable_buttons = (buttons) ->
+  $.each buttons, (i,v) ->
+    $("##{v}").removeAttr('disabled')
+
+@highlight_buttons = (buttons) ->
+  $.each buttons, (i,v) ->
+    $("##{v}").addClass('btn-green')
+
+@unhighlight_buttons = (buttons) ->
+  $.each buttons, (i,v) ->
+    $("##{v}").removeClass('btn-green')
+ 
 #-------------------------------------------
 # Linear Actuator Water UP
 #-------------------------------------------
 $ ->
-  $("#linear_actuator_water_up").click ->
+  $("#dripper-extend").click ->
     message = new window.ros.Message {
       pin_one      : true,
       pin_two      : false,
-      mode         : 2000,
+      mode         : 2300,
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
@@ -133,11 +153,11 @@ $ ->
 # Linear Actuator Water DOWN
 #-------------------------------------------
 $ ->
-  $("#linear_actuator_water_down").click ->
+  $("#dripper-retract").click ->
     message = new window.ros.Message {
       pin_one   : false,
       pin_two   : true,
-      mode      : 2000,
+      mode      : 2300,
     }
     log window.control_linear_actuator_water_topic 
     window.control_linear_actuator_water_topic.publish message
@@ -148,35 +168,40 @@ $ ->
 # Linear Actuator UP
 #-------------------------------------------
 $ ->
-  $("#linear_actuator_up").click ->
+  $("#probe-remove").click ->
+    if $(this).attr('disabled') == 'disabled'
+      return
     message = new window.ros.Message {
       direction : 0,
-      mode      : 3000,  
+      mode      : 3500,  
     }
     log window.control_linear_actuator_topic 
     window.control_linear_actuator_topic.publish message
     console.log message
+    $(this).attr('disabled','disabled')
 
 #-------------------------------------------
 # Linear Actuator DOWN
 #-------------------------------------------
 $ ->
-  $("#linear_actuator_down").click ->
+  $("#probe-insert").click ->
+    if $(this).attr('disabled') == 'disabled'
+      return
     message = new window.ros.Message {
       direction : 1,
-      mode      : 3000,  
+      mode      : 3500,  
     }
     log window.control_linear_actuator_topic 
     window.control_linear_actuator_topic.publish message
     console.log message
+    $(this).attr('disabled','disabled')
 
 #-------------------------------------------
 # DC Motor
 #-------------------------------------------
 $ ->
   $("#rotate_plant").click ->
-    rotate_amount = $("input#rotate_plant_amount").val()
-    log rotate_amount
+    rotate_amount = $("input[name=rotate-table-user-amount]").val()
     dir = 0
     if rotate_amount > 0
       dir = 1
@@ -188,16 +213,64 @@ $ ->
     window.control_dc_motor_topic.publish message
     console.log message
 
+  $("#rotate-plant-cw").click ->
+    rotate_amount = 0.7
+    dir = 1
+    message = new window.ros.Message {
+      direction : dir,
+      mode      : parseFloat(Math.abs(rotate_amount)),  
+    }
+    log window.control_dc_motor_topic
+    window.control_dc_motor_topic.publish message
+    console.log message
+
+  $("#rotate-plant-ccw").click ->
+    rotate_amount = 0.7
+    dir = 0
+    message = new window.ros.Message {
+      direction : dir,
+      mode      : parseFloat(Math.abs(rotate_amount)),  
+    }
+    log window.control_dc_motor_topic
+    window.control_dc_motor_topic.publish message
+    console.log message
+
 #-------------------------------------------
 # Stepper Motor
 #-------------------------------------------
 $ ->
-  $("#rotate_table").click ->
-    scalar = 2/1.8*8
-    steps = parseInt(parseInt($("input#rotate_table_amount").val())*scalar)
+  $("#rotate-table").click ->
+    scalar = 2/1.75*8
+    steps = parseInt(parseInt($("input[name=rotate-table-user-amount]").val())*scalar)
     dir = 0
     if steps > 0
       dir = 1
+    message = new window.ros.Message {
+      direction     : dir,
+      enable_hold   : false,
+      steps_desired : Math.abs(steps),  
+    }
+    log window.control_stepper_motor_topic
+    window.control_stepper_motor_topic.publish message
+    console.log message
+
+  $("#rotate-table-cw").click ->
+    scalar = 2/1.8*8
+    steps = 40
+    dir = 1
+    message = new window.ros.Message {
+      direction     : dir,
+      enable_hold   : false,
+      steps_desired : Math.abs(steps),  
+    }
+    log window.control_stepper_motor_topic
+    window.control_stepper_motor_topic.publish message
+    console.log message
+
+  $("#rotate-table-ccw").click ->
+    scalar = 2/1.8*8
+    steps = 40
+    dir = 0
     message = new window.ros.Message {
       direction     : dir,
       enable_hold   : false,
@@ -211,7 +284,7 @@ $ ->
 # Pump ON
 #-------------------------------------------
 $ ->
-  $("#pump_on").click ->
+  $("#pump-on").click ->
     message = new window.ros.Message {
       pump_mode    : 1,
       valve_1_mode : window.valve1, 
@@ -220,13 +293,15 @@ $ ->
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
     window.pump = 1
+    highlight_buttons([$(this).id])
+    $(this).removeClass('btn-primary')
     log message
 
 #-------------------------------------------
 # Pump OFF
 #-------------------------------------------
 $ ->
-  $("#pump_off").click ->
+  $("#pump-off").click ->
     message = new window.ros.Message {
       pump_mode    : 0,
       valve_1_mode : window.valve1, 
@@ -241,7 +316,7 @@ $ ->
 # Valve 1 OPEN
 #-------------------------------------------
 $ ->
-  $("#upstream_valve_open").click ->
+  $("#upstream-valve-open").click ->
     message = new window.ros.Message {
       pump_mode    : window.pump,
       valve_1_mode : 1, 
@@ -250,13 +325,15 @@ $ ->
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
     window.valve1 = 1
+    highlight_buttons([$(this).attr('id')])
+    $(this).removeClass('btn-primary')
     log message
 
 #-------------------------------------------
 # Valve 1 CLOSE
 #-------------------------------------------
 $ ->
-  $("#upstream_valve_close").click ->
+  $("#upstream-valve-close").click ->
     message = new window.ros.Message {
       pump_mode    : window.pump,
       valve_1_mode : 0, 
@@ -271,7 +348,7 @@ $ ->
 # Valve 2 OPEN
 #-------------------------------------------
 $ ->
-  $("#downstream_valve_open").click ->
+  $("#downstream-valve-open").click ->
     message = new window.ros.Message {
       pump_mode    : window.pump,
       valve_1_mode : window.valve1, 
@@ -280,13 +357,16 @@ $ ->
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
     window.valve2 = 1
+    disable_buttons([$(this).id])
+    highlight_buttons([$(this).id])
+    $(this).removeClass('btn-primary')
     log message
 
 #-------------------------------------------
 # Valve 2 CLOSE
 #-------------------------------------------
 $ ->
-  $("#downstream_valve_close").click ->
+  $("#downstream-valve-close").click ->
     message = new window.ros.Message {
       pump_mode    : window.pump,
       valve_1_mode : window.valve1, 
@@ -401,11 +481,11 @@ $ ->
     change: (event, ui) ->
       if ui.value == 0
         value = "Off"
-      else if ui.value == 1
-        value = "1/3 power"
       else if ui.value == 2
-        value = "2/3 power"
+        value = "1/3 power"
       else if ui.value == 3
+        value = "2/3 power"
+      else if ui.value == 1
         value = "Full power"
       $(event.target).parent().find("span.value").html("")
       led_index = $(event.target).data('led-index')
@@ -465,12 +545,12 @@ $ ->
 # Lights
 #-------------------------------------------
 $ ->
-  light_paper_width = 488
-  light_paper_height = 488
+  light_paper_width = 360
+  light_paper_height = 360
   center_x_pos = light_paper_width/2
   center_y_pos = light_paper_width/2
-  led_radius = 116
-  pot_radius = 50
+  led_radius = 86
+  pot_radius = 40
   base_plate_radius = light_paper_width/2
   PI = Math.PI
 
@@ -676,6 +756,22 @@ subscribe_to_pec_sensor = ->
   ec_sensor_data.subscribe (response) ->
     ec_sensor_data_handler(response)
 
+init_subscribe_to_state = ->
+  state_data = new window.ros.Topic {
+    name        : window.topics.data_state,
+    messageType : "xhab/ArduinoState"
+  }
+  state_data.subscribe (response) ->
+    state_data_handler(response)
+
+init_subscribe_to_callback = ->
+  callback_data = new window.ros.Topic {
+    name        : window.topics.data_callback,
+    messageType : "xhab/CallBack"
+  }
+  callback_data.subscribe (response) ->
+    callback_data_handler(response)
+
 #-------------------------------------------
 # Publishers
 #-------------------------------------------
@@ -782,3 +878,46 @@ ph_handler = (response) ->
   series.addPoint [response.header.stamp.secs*1000, value], true, shift
   $(".fluid-ph-value").html(value.toFixed(2))
 
+state_data_handler = (r) ->
+  log r
+
+  if r.PumpState == 1
+    highlight_buttons(['pump-on'])
+  if r.UpStreamValveState == 1
+    highlight_buttons(['upstream-valve-open'])
+  if r.LinActState == 1
+    enable_buttons(['probe-insert'])
+    disable_buttons(['probe-remove'])
+  else
+    disable_buttons(['probe-insert'])
+    enable_buttons(['probe-remove'])
+
+  
+callback_data_handler = (r) ->
+  log r
+  switch r.cid
+    when 7,8,9
+      if r.mid == 1
+        block()
+      else
+        unblock()
+    when 11
+      if r.mid == 1
+        highlight_buttons(['upstream-valve-open'])  
+      else
+        enable_buttons(['upstream-valve-open'])
+        unhighlight_buttons(['upstream-valve-open'])
+        $('#upstream-valve-open').addClass('btn-primary')
+    when 12
+      if r.mid == 1
+        highlight_buttons(['pump-on'])
+      else
+        enable_buttons(['pump-on'])
+        unhighlight_buttons(['pump-on'])
+        $('#pump-on').addClass('btn-primary')
+ 
+block = ->
+  $("div#whiteout").show()
+
+unblock = ->
+  $("div#whiteout").hide()
