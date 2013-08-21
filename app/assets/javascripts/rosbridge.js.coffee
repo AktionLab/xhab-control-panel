@@ -3,7 +3,8 @@
 #-------------------------------------------
 
 # Rosbridge 
-window.ros_master_ip = "10.1.57.143"
+#window.ros_master_ip = "10.1.57.143"
+window.ros_master_ip = "127.0.0.1"
 window.connection = null
 window.rosbridge_host = "ws://#{window.ros_master_ip}:9090"
 
@@ -134,7 +135,36 @@ log = (message) ->
 @unhighlight_buttons = (buttons) ->
   $.each buttons, (i,v) ->
     $("##{v}").removeClass('btn-green')
+
+#-------------------------------------------
+# Add Water
+#-------------------------------------------
+$ ->
+  $("#add-water").click ->
+    block()
+    log 'opening upstream'
+    $("#upstream-valve-open").click()
+    $("#downstream-valve-open").click()
+    $("#pump-on").click()
+    window.setTimeout(add_water_close_downstream,5000)
+
+add_water_close_downstream = ->
+  log 'closing downstream'
+  $("#downstream-valve-close").click()
+  window.setTimeout(add_water_open_downstream,parseInt($("input[name=water-amount]").val())*1000)
+  
+add_water_open_downstream = ->
+  log 'opening downstream'
+  $("#downstream-valve-open").click()
+  window.setTimeout(add_water_stop_pump,2000)
  
+add_water_stop_pump = ->
+  log 'stopping pump'
+  $("#pump-off").click()
+  $("#downstream-valve-close").click()
+  $("#upstream-valve-close").click()
+  unblock()
+
 #-------------------------------------------
 # Linear Actuator Water UP
 #-------------------------------------------
@@ -209,6 +239,8 @@ $ ->
       direction : dir,
       mode      : parseFloat(Math.abs(rotate_amount)),  
     }
+    block()
+    highlight_buttons([$(this).attr('id')])
     log window.control_dc_motor_topic 
     window.control_dc_motor_topic.publish message
     console.log message
@@ -220,6 +252,7 @@ $ ->
       direction : dir,
       mode      : parseFloat(Math.abs(rotate_amount)),  
     }
+    highlight_buttons([$(this).attr('id')])
     log window.control_dc_motor_topic
     window.control_dc_motor_topic.publish message
     console.log message
@@ -231,6 +264,7 @@ $ ->
       direction : dir,
       mode      : parseFloat(Math.abs(rotate_amount)),  
     }
+    highlight_buttons([$(this).attr('id')])
     log window.control_dc_motor_topic
     window.control_dc_motor_topic.publish message
     console.log message
@@ -250,6 +284,7 @@ $ ->
       enable_hold   : false,
       steps_desired : Math.abs(steps),  
     }
+    highlight_buttons([$(this).attr('id')])
     log window.control_stepper_motor_topic
     window.control_stepper_motor_topic.publish message
     console.log message
@@ -263,6 +298,7 @@ $ ->
       enable_hold   : false,
       steps_desired : Math.abs(steps),  
     }
+    highlight_buttons([$(this).attr('id')])
     log window.control_stepper_motor_topic
     window.control_stepper_motor_topic.publish message
     console.log message
@@ -276,6 +312,7 @@ $ ->
       enable_hold   : false,
       steps_desired : Math.abs(steps),  
     }
+    highlight_buttons([$(this).attr('id')])
     log window.control_stepper_motor_topic
     window.control_stepper_motor_topic.publish message
     console.log message
@@ -357,8 +394,7 @@ $ ->
     log window.control_pump_state_topic
     window.control_pump_state_topic.publish message
     window.valve2 = 1
-    disable_buttons([$(this).id])
-    highlight_buttons([$(this).id])
+    highlight_buttons([$(this).attr('id')])
     $(this).removeClass('btn-primary')
     log message
 
@@ -523,7 +559,7 @@ $ ->
   sensor_arm_width = $("#soil-sensor-arm").parent().width
   sensor_arm_height = $("#soil-sensor-arm").parent().height
   
-  window.sensor_gui = Raphael("soil-sensor-arm", 100, 150)
+  window.sensor_gui = Raphael("soil-sensor-arm", 200, 150)
 
   window.sensor_gui.setStart()
 
@@ -535,11 +571,11 @@ $ ->
 
   window.sensor_arm = window.sensor_gui.setFinish()
 
-  $("button#insert-probe").click ->
-    window.sensor_arm.animate({transform: "r90,15,150"}, 1000) 
+  $("#probe-insert").click ->
+    window.sensor_arm.animate({transform: "r90,15,90"}, 3500) 
  
-  $("button#remove-probe").click ->
-    window.sensor_arm.animate({transform: "r0,15,150"}, 1000) 
+  $("#probe-remove").click ->
+    window.sensor_arm.animate({transform: "r0,15,90"}, 3500) 
  
 #-------------------------------------------
 # Lights
@@ -565,7 +601,7 @@ $ ->
   window.lights_glow = window.eps_gui.set()
   window.pots = window.eps_gui.set()
   for i in [0..4]
-    angle = (2*PI/5)*i - 0.5*PI
+    angle = (2*PI/5)*i - 0.6*PI
     x_pos = Math.cos(angle)*0.4*(light_paper_width - 2*pot_radius) + 0.5*light_paper_width
     y_pos = Math.sin(angle)*0.4*(light_paper_height - 2*pot_radius) + 0.5*light_paper_height
     x_pos_label = Math.cos(angle)*0.5*(light_paper_width - 2*pot_radius) + 0.5*light_paper_width
@@ -879,12 +915,12 @@ ph_handler = (response) ->
   $(".fluid-ph-value").html(value.toFixed(2))
 
 state_data_handler = (r) ->
-  log r
+  #log r
 
-  if r.PumpState == 1
-    highlight_buttons(['pump-on'])
-  if r.UpStreamValveState == 1
-    highlight_buttons(['upstream-valve-open'])
+  #if r.PumpState == 1
+    #highlight_buttons(['pump-on'])
+  #if r.UpStreamValveState == 1
+    #highlight_buttons(['upstream-valve-open'])
   if r.LinActState == 1
     enable_buttons(['probe-insert'])
     disable_buttons(['probe-remove'])
@@ -894,13 +930,21 @@ state_data_handler = (r) ->
 
   
 callback_data_handler = (r) ->
-  log r
+  #log r
   switch r.cid
-    when 7,8,9
+    when 6,7,8,9
       if r.mid == 1
         block()
       else
         unblock()
+        unhighlight_buttons(['rotate-plant-cw','rotate-plant-ccw','rotate-table-cw','rotate-table-ccw','rotate-table'])
+    when 10
+      if r.mid == 1
+        highlight_buttons(['downstream-valve-open'])
+      else
+        enable_buttons(['downstream-valve-open'])
+        unhighlight_buttons(['downstream-valve-open'])
+        $('#downstream-valve-open').addClass('btn-primary')
     when 11
       if r.mid == 1
         highlight_buttons(['upstream-valve-open'])  

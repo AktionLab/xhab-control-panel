@@ -146,8 +146,30 @@ div.log {
   }
 }
 #raphael-lights-overhead {
+  position:relative;
   svg {
     margin-left:55px;
+  }
+}
+
+div#lights {
+  #arm {
+    position: absolute;
+    top: 200px;
+    left: 20px;
+    font-size:16px;
+    color: yellow;
+    font-family:'courier';
+    font-weight:bold;
+  }
+  #water {
+    position: absolute;
+    top: 320px;
+    left: 400px;
+    font-size: 16px;
+    color: #aaaaff;
+    font-family: 'courier';
+    font-weight:bold;
   }
 }
 
@@ -159,6 +181,6 @@ div#whiteout {
   z-index: 100;
   width: 100%;
   height: 100%;
-  background: black;
+  background: black url(/assets/150.gif) center center no-repeat;
   opacity: 0.6;
 }
