@@ -1,16 +1,30 @@
 <div class="row-fluid">
   <div class="span3">
     <div class="black-box">
-      <div class="tab-header">Main Camera</div>
-      <div id="arm-cam-container" style="width:100%;height:340px;background:#ccc"></div>
+      <div class="tab-header">Arm Camera</div>
+      <div style="width:100%;height:340px;">
+        <div id="arm-cam-container" style="height:340px;overflow:hidden;">
+          <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="overflow:hidden;margin-top: 0px;width:640px;height:340px;-webkit-transform: rotate(0deg)">
+            <video autoplay>
+              <source type="video/flash" src="http://10.1.57.143:8090/test1.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
+            </video>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="span3" style="height:360px;">
     <div class="black-box">
-      <div class="tab-header">Arm Camera</div>
-      <div style="width:100%;height:340px;background:#ccc"></div>
-          </div>
+      <div class="tab-header">Water Station Camera</div>
+      <div id="arm-cam-container" style="height:340px;overflow:hidden;">
+        <div class="flowplayer" data-swf="flowplayer.swf" data-ratio="1" style="overflow:hidden;margin-top: 0px;width:640px;height:340px;-webkit-transform: rotate(0deg)">
+          <video autoplay>
+            <source type="video/flash" src="http://10.1.57.143:8090/test2.flv?date=<%= Time.new.gmtime.strftime("%H:%M:%S") %>Z"/>
+          </video>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="span2" style="height:360px;">
@@ -76,14 +90,14 @@
       <div class="tab-header">Recent Logs</div>
       <div class="padded" style="height: 80px; overflow-y: scroll;">
         <div class="log inner-well">
-          <span class="log-date">7/15/13 4:50PM</span>
+          <span class="log-date">8/20/13 4:50PM</span>
           <p class="log-entry">
-          This is a recent log.</p>
+          Plant 3 watered for 75 seconds.</p>
         </div>
         <div class="log inner-well">
-          <span class="log-date">7/15/13 4:50PM</span>
+          <span class="log-date">8/20/13 2:20PM</span>
           <p class="log-entry">
-          This is a recent log.</p>
+          Plant 4 watered for 150 seconds.</p>
         </div>
         <div class="log inner-well">
           <span class="log-date">7/15/13 4:50PM</span>
@@ -125,11 +139,28 @@
     <div class="row-fluid">
       <%= image_tag "fluid-schematic.png", style: "height:350px;width:100%;" %>
     </div>
+    <div class="black-box" style="margin-top:8px;">
+      <div style="text-align:center;"><h3>Wed Aug 21, 2013 2:13 PM</h3></div>
+    </div>
   </div>
   <div class="span4">
-    <div id="chart-moisture" style="width:100%;height:144px;background:#ccc;margin-bottom:4px;"></div>
-    <div id="chart-temperature" style="width:100%;height:144px;background:#ccc;margin-bottom:4px;"></div>
-    <div id="chart-tds" style="width:100%;height:144px;background:#ccc;margin-bottom:4px;"></div>
-    <div id="chart-ph" style="width:100%;height:144px;background:#ccc;"></div>
+    <div style="position:relative;">
+      <div id="chart-moisture" style="position:relative;width:100%;height:144px;background:#ccc;margin-bottom:1px;"></div>
+      <div style="padding:4px;position:absolute;right:0;bottom:0;background:#000;color:#fff;font-size:12px;">Current Moisture Level: <span class="moisture"></span>% +/- 5%</div>
+    </div>
+    <div style="position:relative;">
+      <div id="chart-temperature" style="position:relative;width:100%;height:144px;background:#ccc;margin-bottom:1px;"></div>
+      <div style="padding:4px;position:absolute;right:0;bottom:0;background:#000;color:#fff;font-size:12px;">Current Temperature: <span class="temperature"></span>75&deg;F</div>
+    </div>
+    <div style="position:relative;">
+    <div style="position:relative;">
+      <div id="chart-tds" style="position:relative;width:100%;height:144px;background:#ccc;margin-bottom:1px;"></div>
+      <div style="padding:4px;position:absolute;right:0;bottom:0;background:#000;color:#fff;font-size:12px;">Current TDS: <span class="temperature"></span>1970 ppm</div>
+    </div>
+    <div style="position:relative;">
+      <div id="chart-ph" style="position:relative;width:100%;height:144px;background:#ccc;"></div>
+      <div style="padding:4px;position:absolute;right:0;bottom:0;background:#000;color:#fff;font-size:12px;">Current pH: <span class="temperature"></span>6.1</div>
+    
+    </div>
   </div>
 </div>

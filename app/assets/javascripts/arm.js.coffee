@@ -64,7 +64,7 @@ $ ->
   console.log canvas_width
   canvas_height = $("#arm-cam-container").height()
   arm_base_x = canvas_width / 2
-  arm_base_y = canvas_height - 10
+  arm_base_y = canvas_height - 30
 
   R = Raphael("arm-portrait", canvas_width, canvas_height)
 
@@ -239,5 +239,5 @@ $ ->
     )
 
   # work envelope
-  R.circle(300,326,268).attr({fill: "blue", opacity: 0.1})
-  R.circle(300,326,268).attr({stroke: "#3333ff", "stroke-width": 2})
+  R.circle(300,306,268).attr({fill: "blue", opacity: 0.1})
+  R.circle(300,306,268).attr({stroke: "#3333ff", "stroke-width": 2})

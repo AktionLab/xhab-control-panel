@@ -1,4 +1,8 @@
+body {
+  overflow:hidden;
+}
 #main {
+  overflow:hidden;
   font-size: 10px;
   .tab-header {
     font-size: 12px;
@@ -29,7 +33,7 @@ h4 {
 }
 
 .led-array-container {
-  width: 200px;
+  width: 250px;
   padding-bottom: 0px;
 }
 

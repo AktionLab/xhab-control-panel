@@ -782,7 +782,7 @@ init_fluid_line_pressure_downstream_chart = ->
 # Subscribers
 #-------------------------------------------
 
-@subscribe_to_temperature = ->
+subscribe_to_temperature = ->
   temperature = new window.ros.Topic {
     name        : window.topics.data_temperature,
     messageType : "xhab/Temperature"
@@ -929,9 +929,8 @@ temperature_handler = (response) ->
   else
     shift = false
   value = response.value
-  log value
   series.addPoint [response.header.stamp.secs*1000, value], true, shift
-  $(".temperature").html(value.toFixed(2))
+  $(".fluid-temperature-value").html(value.toFixed(2))
 
 joint_angles_handler = (response) ->
   console.log response
