@@ -35,21 +35,9 @@ That'll probably take a few minutes to configure and build.
 Ruby on Rails requires a Javascript runtime. If you don't already have one on your system, install node. But first, make sure you've installed the required dependencies:
 
     sudo apt-get update
-    sudo apt-get install build-essential git python libssl-dev
+    sudo apt-get install build-essential git python libssl-dev nodejs
 
-Now you can install node. You may want to check the node website and adjust the following commands so that you are installing the latest version of node:
-
-    cd /usr/local/src
-    sudo mkdir node
-    cd node
-    sudo wget http://nodejs.org/dist/v0.8.18/node-v0.8.18.tar.gz
-    sudo tar -xzvf node-v0.8.18.tar.gz
-    cd node-v0.8.18
-    sudo ./configure
-    sudo make
-    sudo make install
-
-Expect that to take a bit of time to build. Once you have node installed (or already had a Javascript runtime on your system), you can continue setting up the project.
+Once you have node installed (or already had a Javascript runtime on your system), you can continue setting up the project.
 
 Next, clone the project from github.
 
